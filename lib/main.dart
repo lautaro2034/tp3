@@ -1,4 +1,5 @@
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
+import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Home(),
+        body: ScreenMenuLateral(),
       ),
     );
   }
