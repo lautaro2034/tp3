@@ -1,6 +1,4 @@
-import 'package:app_de_estacionamiento/presentations/screens/home.dart';
-import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
-import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
+import 'package:app_de_estacionamiento/Core/appRouter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,11 +10,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: MyButtomNavbar(),
-      ),
+      routerConfig: appRouter,
     );
   }
 }
