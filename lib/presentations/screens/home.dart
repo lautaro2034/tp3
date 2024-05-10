@@ -1,5 +1,6 @@
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
+import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,7 +61,7 @@ class Home extends StatelessWidget {
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    context.goNamed(ScreenMenuLateral.name);
+                    context.goNamed(MyButtomNavbar.name);
                   },
                   child: const Text('Login')),
             ),
