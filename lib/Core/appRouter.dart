@@ -16,11 +16,7 @@ final appRouter = GoRouter(
       builder: (context, state) => Home(),
       name: Home.name,
       ),
-    GoRoute(
-      path: '/myButtomNavBar',
-      builder: (context, state) => MyButtomNavbar(),
-      name: MyButtomNavbar.name,
-    ),
+    
     
   ],
 );

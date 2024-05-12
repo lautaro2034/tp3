@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MyButtomNavbar extends StatelessWidget {
-  // void Function(int)? onTabChange;
+  void Function(int)? onTabChange;
   static const String name = 'MyButtomNavbar';
 
-  const MyButtomNavbar({
+  MyButtomNavbar({
     super.key,
-    //required this.onTabChange,
+    required this.onTabChange,
   });
 
   @override
@@ -23,6 +23,7 @@ class MyButtomNavbar extends StatelessWidget {
             tabBackgroundColor: Colors.grey.shade100,
             mainAxisAlignment: MainAxisAlignment.center,
             tabBorderRadius: 16,
+            onTabChange: (value) => onTabChange!(value),
             gap: 8,
             //onTabChange: (value) => onTabChange!(value),
 
@@ -37,7 +38,7 @@ class MyButtomNavbar extends StatelessWidget {
               // Boton de icono + 'Mis Reservas'
               GButton(
                 icon: Icons.list,
-                text: 'Mis Reservas',
+                text: 'Total de reservas',
               ),
 
               // Boton de icono + 'Buscar Auto'
