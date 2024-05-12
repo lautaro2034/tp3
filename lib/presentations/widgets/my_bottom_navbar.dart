@@ -1,6 +1,4 @@
-import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MyButtomNavbar extends StatelessWidget {
@@ -14,21 +12,7 @@ class MyButtomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) => IconButton(
-              onPressed: () {
-                context.goNamed(ScreenMenuLateral.name);
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              )),
-        ),
-      ),
-      // Para situar el navbar por debajo
-      bottomNavigationBar: Container(
+    return Container(
           padding: const EdgeInsets.symmetric(vertical: 20),
 
           // Libreria de google_nav_bar
@@ -62,7 +46,7 @@ class MyButtomNavbar extends StatelessWidget {
                 text: 'Buscar Auto',
               ),
             ],
-          )),
-    );
+          ));
+    
   }
 }
