@@ -1,7 +1,9 @@
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/drawer_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
+import 'package:booking_calendar/booking_calendar.dart';
 import 'package:flutter/material.dart';
 //import 'package:go_router/go_router.dart';
 
@@ -16,12 +18,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-void navigateBottomBar(int index){
+  void navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
 
   // Paginas a mostrar
   final List<Widget> _pages = [
@@ -29,24 +30,25 @@ void navigateBottomBar(int index){
     const Text('Retirar Auto'),
 
     // Calendario de las reservas
+    //const BookingCalendarDemoApp(),
     const AdminReservationCalendar(),
 
     // Screen de busqueda de auto
     const Text('Buscar Auto'),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const ScreenMenuLateral(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(0), // Elimina el espacio del AppBar
+        child: SizedBox.shrink(), // Hace que el AppBar sea invisible
+      ),
       drawer: const DrawerMenuLateral(),
       bottomNavigationBar: MyButtomNavbar(
         onTabChange: (index) => navigateBottomBar(index),
       ),
       body: _pages[_selectedIndex],
     );
-
-
   }
 }

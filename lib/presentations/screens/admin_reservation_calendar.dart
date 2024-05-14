@@ -7,7 +7,8 @@ class AdminReservationCalendar extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _AdminReservationCalendarState createState() => _AdminReservationCalendarState();
+  _AdminReservationCalendarState createState() =>
+      _AdminReservationCalendarState();
 }
 
 class _AdminReservationCalendarState extends State<AdminReservationCalendar> {
@@ -86,6 +87,7 @@ class _AdminReservationCalendarState extends State<AdminReservationCalendar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todas las reservas'),
+        centerTitle: true,
       ),
       body: Column(
         children: [
