@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class BookingCalendarDemoApp extends StatefulWidget {
   const BookingCalendarDemoApp({super.key});
@@ -18,7 +17,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     super.initState();
     mockBookingService = BookingService(
         serviceName: 'Servicio Simulado',
-        serviceDuration: 60,
+        serviceDuration: 30,
         bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
         bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
   }
