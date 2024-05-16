@@ -24,7 +24,5 @@ class ScreenMenuLateral extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(25); // Elimina el espacio del AppBar
-  // Hace que el AppBar sea invisible
+  Size get preferredSize => const Size.fromHeight(100);
 }

@@ -11,9 +11,9 @@ Future<void> main() async {
   Intl.defaultLocale = 'es_ES';
   initializeDateFormatting("es_ES");
 
-  //await Firebase.initializeApp(
-  //  options: DefaultFirebaseOptions.currentPlatform,
- // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MainApp());
 }
