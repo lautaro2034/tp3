@@ -31,8 +31,8 @@ class _HomeState extends State<Home> {
     const Text('Retirar Auto'),
 
     // Calendario de las reservas
-    //const ConfirmReservationPage(),
-    const BookingCalendarDemoApp(),
+    const ConfirmReservationPage(),
+    //const BookingCalendarDemoApp(),
     //const AdminReservationCalendar(),
 
     // Screen de busqueda de auto

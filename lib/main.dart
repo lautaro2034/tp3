@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 // ...
@@ -12,9 +11,9 @@ Future<void> main() async {
   Intl.defaultLocale = 'es_ES';
   initializeDateFormatting("es_ES");
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //await Firebase.initializeApp(
+  //  options: DefaultFirebaseOptions.currentPlatform,
+ // );
 
   runApp(const MainApp());
 }

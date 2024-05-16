@@ -16,12 +16,13 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Confirmar Reserva'),
       ),
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -47,10 +48,8 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () {
-                  // Logica para el botón SUBMIT
-                },
-                child: const Text('SUBMIT'),
+                onPressed: () {},
+                child: const Center(child: Text('confirmar')),
               ),
             ],
           ),
