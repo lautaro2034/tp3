@@ -22,7 +22,7 @@ class Usuario {
     };
   }
 
-  factory Usuario.fromFirestore(
+  /*factory Usuario.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
@@ -34,5 +34,5 @@ class Usuario {
       nombre: data?['nombre'],
       apellido: data?['apellido'],
     );
-  }
+  }*/
 }
