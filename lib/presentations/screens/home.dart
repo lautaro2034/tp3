@@ -1,9 +1,9 @@
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/drawer_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
-import 'package:booking_calendar/booking_calendar.dart';
 import 'package:flutter/material.dart';
 //import 'package:go_router/go_router.dart';
 
@@ -30,20 +30,17 @@ class _HomeState extends State<Home> {
     const Text('Retirar Auto'),
 
     // Calendario de las reservas
-    //const BookingCalendarDemoApp(),
-    const AdminReservationCalendar(),
+    const BookingCalendarDemoApp(),
+    //const AdminReservationCalendar(),
 
     // Screen de busqueda de auto
-    const Text('Buscar Auto'),
+    const BuscadorAuto()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(0), // Elimina el espacio del AppBar
-        child: SizedBox.shrink(), // Hace que el AppBar sea invisible
-      ),
+      appBar: const ScreenMenuLateral(),
       drawer: const DrawerMenuLateral(),
       bottomNavigationBar: MyButtomNavbar(
         onTabChange: (index) => navigateBottomBar(index),

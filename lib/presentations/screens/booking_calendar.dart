@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class BookingCalendarDemoApp extends StatefulWidget {
   const BookingCalendarDemoApp({super.key});
