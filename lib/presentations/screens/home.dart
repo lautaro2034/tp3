@@ -42,10 +42,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(0), // Elimina el espacio del AppBar
-        child: SizedBox.shrink(), // Hace que el AppBar sea invisible
-      ),
+      appBar: const ScreenMenuLateral(),
       drawer: const DrawerMenuLateral(),
       bottomNavigationBar: MyButtomNavbar(
         onTabChange: (index) => navigateBottomBar(index),
