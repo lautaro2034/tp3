@@ -1,6 +1,6 @@
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
-import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
 import 'package:go_router/go_router.dart';
 
 // GoRouter configuration
@@ -12,11 +12,14 @@ final appRouter = GoRouter(
       name: Login.name,
     ),
     GoRoute(
-      path: '/home', 
+      path: '/home',
       builder: (context, state) => Home(),
       name: Home.name,
-      ),
-    
-    
+    ),
+    GoRoute(
+      path: '/registracion',
+      builder: (context, state) => Registracion(),
+      name: Registracion.name,
+    ),
   ],
 );
