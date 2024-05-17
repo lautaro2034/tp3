@@ -32,21 +32,21 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 55),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Patente',
                   border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 50),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Marca',
                   border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 80),
               ElevatedButton(
                 onPressed: () {},
                 child: const Center(child: Text('confirmar')),
