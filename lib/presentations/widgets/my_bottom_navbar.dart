@@ -37,8 +37,8 @@ class MyButtomNavbar extends StatelessWidget {
 
             // Boton de icono + 'Mis Reservas'
             GButton(
-              icon: Icons.list,
-              text: 'Total de reservas',
+              icon: Icons.car_rental_sharp,
+              text: 'Retirar',
             ),
 
             // Boton de icono + 'Buscar Auto'

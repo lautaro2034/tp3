@@ -1,5 +1,7 @@
 // confirm_reservation_page.dart
+import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ConfirmReservationPage extends StatefulWidget {
   const ConfirmReservationPage({super.key});
@@ -48,7 +50,9 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
               ),
               const SizedBox(height: 80),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(BookingCalendarDemoApp.name);
+                },
                 child: const Center(child: Text('confirmar')),
               ),
             ],

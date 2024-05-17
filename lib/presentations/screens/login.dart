@@ -66,7 +66,7 @@ class Login extends StatelessWidget {
                   child: const Text('Login')),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 20.5,
             ),
 
