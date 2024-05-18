@@ -1,4 +1,6 @@
+import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DrawerMenuLateral extends StatelessWidget {
   const DrawerMenuLateral({super.key});
@@ -72,17 +74,20 @@ class DrawerMenuLateral extends StatelessWidget {
           ),
 
           // Icono de Cerrar Sesión
-          const Padding(
-            padding: EdgeInsets.only(left: 25.0, bottom: 25),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, bottom: 25),
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.logout,
                 color: Colors.white,
               ),
-              title: Text(
+              title: const Text(
                 'Cerrar Sesión',
                 style: TextStyle(color: Colors.white),
               ),
+              onTap: () {
+                context.goNamed(Login.name);
+              },
             ),
           ),
         ],
