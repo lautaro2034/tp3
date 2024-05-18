@@ -1,15 +1,22 @@
+import 'package:app_de_estacionamiento/Core/Entities/user.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
+import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Registracion extends StatelessWidget {
   static const String name = 'Registracion';
-  const Registracion({super.key});
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passWordTextController = TextEditingController();
+
+  Registracion({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //final db = FirebaseFirestore.instance;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: _buildAppBar(),
@@ -23,17 +30,35 @@ class Registracion extends StatelessWidget {
               size: 150,
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
 
-            const InputTextLogin(
-                hintText: 'Ingrese correo a registrar',
-                icon: Icon(Icons.email_outlined)),
+            //EMAIL
+            TextField(
+              controller: _emailTextController,
+              decoration: InputDecoration(
+                hintText: 'Ingrese un correo',
+                hintStyle: const TextStyle(color: Colors.white),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
 
             //PASSWORD
-            const InputTextLogin(
-                hintText: 'Genere su contraseña', icon: Icon(Icons.key)),
+            TextField(
+              controller: _passWordTextController,
+              decoration: InputDecoration(
+                hintText: 'Ingrese una clave',
+                hintStyle: const TextStyle(color: Colors.white),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
 
-            const SizedBox(height: 50),
+            const SizedBox(height: 40),
 
             Container(
               decoration: BoxDecoration(
@@ -50,7 +75,10 @@ class Registracion extends StatelessWidget {
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    //context.goNamed(Home.name);
+                    user elusuario = user(
+                        nombre: _emailTextController.text,
+                        password: _passWordTextController.text);
+                    context.goNamed(testeo.nombre, extra: elusuario);
                   },
                   child: const Text('Crear')),
             ),

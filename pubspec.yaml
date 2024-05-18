@@ -9,8 +9,10 @@ environment:
 dependencies:
   altfire_configurator: ^0.1.1
   booking_calendar: ^1.1.10
+  cloud_firestore: ^4.17.3
   firebase_admin: ^0.2.0
   firebase_auth: ^4.19.5
+  firebase_core: ^2.31.0
   flutter:
     sdk: flutter
   flutter_neumorphic: ^3.2.0

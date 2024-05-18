@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 
 class BookingCalendarDemoApp extends StatefulWidget {
+  static const String name = 'calendarioReserva';
   const BookingCalendarDemoApp({super.key});
 
   @override
@@ -17,9 +18,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     super.initState();
     mockBookingService = BookingService(
         serviceName: 'Servicio Simulado',
-        serviceDuration: 30,
-        bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
-        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
+        serviceDuration: 1,
+        bookingEnd: DateTime(now.year, now.month, now.day, 1),
+        bookingStart: DateTime(now.year, now.month, now.day, 0));
   }
 
   Stream<dynamic>? getBookingStreamMock(
@@ -41,29 +42,29 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     // Implementa la lógica de conversión aquí
     DateTime first = now;
-    DateTime tomorrow = now.add(const Duration(days: 1));
-    DateTime second = now.add(const Duration(minutes: 55));
-    DateTime third = now.subtract(const Duration(minutes: 240));
-    DateTime fourth = now.subtract(const Duration(minutes: 500));
+    DateTime tomorrow = now.add(const Duration(days: 0));
+    DateTime second = now.add(const Duration(minutes: 0));
+    DateTime third = now.subtract(const Duration(minutes: 0));
+    DateTime fourth = now.subtract(const Duration(minutes: 0));
     converted.add(
-        DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
+        DateTimeRange(start: first, end: now.add(const Duration(minutes: 0))));
     converted.add(DateTimeRange(
-        start: second, end: second.add(const Duration(minutes: 23))));
+        start: second, end: second.add(const Duration(minutes: 0))));
     converted.add(DateTimeRange(
-        start: third, end: third.add(const Duration(minutes: 15))));
+        start: third, end: third.add(const Duration(minutes: 0))));
     converted.add(DateTimeRange(
-        start: fourth, end: fourth.add(const Duration(minutes: 50))));
+        start: fourth, end: fourth.add(const Duration(minutes: 0))));
     converted.add(DateTimeRange(
-        start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 5, 0),
-        end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 0)));
+        start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0),
+        end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0)));
     return converted;
   }
 
   List<DateTimeRange> generatePauseSlots() {
     return [
       DateTimeRange(
-          start: DateTime(now.year, now.month, now.day, 12, 0),
-          end: DateTime(now.year, now.month, now.day, 13, 0))
+          start: DateTime(now.year, now.month, now.day, 0),
+          end: DateTime(now.year, now.month, now.day, 0))
     ];
   }
 

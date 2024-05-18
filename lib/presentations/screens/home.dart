@@ -27,12 +27,13 @@ class _HomeState extends State<Home> {
 
   // Paginas a mostrar
   final List<Widget> _pages = [
+    const ConfirmReservationPage(),
     // Screen de retiro de auto
     const Text('Retirar Auto'),
 
     // Calendario de las reservas
-    //ConfirmReservationPage(),
-    const BookingCalendarDemoApp(),
+
+    //const BookingCalendarDemoApp(),
     //const AdminReservationCalendar(),
 
     // Screen de busqueda de auto
