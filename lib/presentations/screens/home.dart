@@ -1,5 +1,6 @@
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/form_reserva.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/drawer_menu_lateral.dart';
@@ -30,6 +31,7 @@ class _HomeState extends State<Home> {
     const Text('Retirar Auto'),
 
     // Calendario de las reservas
+    //ConfirmReservationPage(),
     const BookingCalendarDemoApp(),
     //const AdminReservationCalendar(),
 
