@@ -1,4 +1,3 @@
-import 'package:app_de_estacionamiento/Core/Entities/user.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
@@ -23,11 +22,5 @@ final appRouter = GoRouter(
       builder: (context, state) => Registracion(),
       name: Registracion.name,
     ),
-    GoRoute(
-        path: '/testeo',
-        builder: (context, state) => testeo(
-              elUsuario: state.extra as user,
-            ),
-        name: testeo.nombre),
   ],
 );

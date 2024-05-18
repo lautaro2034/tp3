@@ -70,6 +70,20 @@ class DrawerMenuLateral extends StatelessWidget {
                   ),
                 ),
               ),
+              // Icono de lista de...
+              const Padding(
+                padding: EdgeInsets.only(left: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.list_alt_rounded,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'lista de reservas',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             ],
           ),
 
