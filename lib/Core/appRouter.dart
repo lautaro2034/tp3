@@ -1,7 +1,8 @@
+import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
-import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
+//import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
 import 'package:go_router/go_router.dart';
 
 // GoRouter configuration
@@ -21,6 +22,11 @@ final appRouter = GoRouter(
       path: '/registracion',
       builder: (context, state) => Registracion(),
       name: Registracion.name,
+    ),
+    GoRoute(
+      path: '/calendarioReserva',
+      builder: (context, state) => const BookingCalendarDemoApp(),
+      name: BookingCalendarDemoApp.name,
     ),
   ],
 );
