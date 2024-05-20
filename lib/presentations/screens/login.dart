@@ -44,7 +44,8 @@ class _LoginState extends State<Login> {
 
             //EMAIL
             TextField(
-              decoration: InputDecoration(labelText: 'EMAIL'),
+              decoration: const InputDecoration(labelText: 'EMAIL'),
+              style: const TextStyle(color: Colors.white),
               onChanged: (value) {
                 setState(() {
                   _email = value;
@@ -54,7 +55,8 @@ class _LoginState extends State<Login> {
 
             // PASS
             TextField(
-              decoration: InputDecoration(labelText: 'PASSWORD'),
+              decoration: const InputDecoration(labelText: 'PASSWORD'),
+              style: const TextStyle(color: Colors.white),
               onChanged: (value) {
                 setState(() {
                   _clave = value;
