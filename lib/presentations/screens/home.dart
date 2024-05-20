@@ -3,6 +3,7 @@ import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.da
 import 'package:app_de_estacionamiento/presentations/screens/form_reserva.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
+import 'package:app_de_estacionamiento/presentations/screens/screen_retiro_auto.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/drawer_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/my_bottom_navbar.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +28,14 @@ class _HomeState extends State<Home> {
 
   // Paginas a mostrar
   final List<Widget> _pages = [
+    //registro de reserva
     const ConfirmReservationPage(),
-    // Screen de retiro de auto
-    const Text('Retirar Auto'),
 
     // Calendario de las reservas
-
-    //const BookingCalendarDemoApp(),
     //const AdminReservationCalendar(),
+
+    // Screen de retiro de auto
+    const RetirarAuto(),
 
     // Screen de busqueda de auto
     const BuscadorAuto()
