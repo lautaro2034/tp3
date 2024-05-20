@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ConfirmReservationPage extends StatefulWidget {
+  //int index;
+
   const ConfirmReservationPage({super.key});
 
   @override
@@ -27,8 +29,10 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
           padding: const EdgeInsets.all(30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
+            children: [
+
+             
+            TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Modelo',
                   border: OutlineInputBorder(),
@@ -55,7 +59,9 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
                 },
                 child: const Center(child: Text('confirmar')),
               ),
-            ],
+            ]
+              
+            
           ),
         ),
       ),
