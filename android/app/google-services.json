@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "473323408914",
-    "project_id": "egargedb",
-    "storage_bucket": "egargedb.appspot.com"
+    "project_number": "446591971525",
+    "project_id": "dbgarage-82054",
+    "storage_bucket": "dbgarage-82054.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:473323408914:android:8711c2a73239b731ac92cb",
+        "mobilesdk_app_id": "1:446591971525:android:ab2dfa5e8b73c7c20e80ac",
         "android_client_info": {
           "package_name": "com.example.app_de_estacionamiento"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAQVMNcmHezk2n_t8GR79kWem9sQaLBF_c"
+          "current_key": "AIzaSyDVlN5yd-uBboAg7MAjxpjfiUthlBZUN98"
         }
       ],
       "services": {

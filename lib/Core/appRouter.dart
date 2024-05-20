@@ -19,8 +19,8 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/registracion',
-      builder: (context, state) => Registracion(),
-      name: Registracion.name,
+      builder: (context, state) => RegisterScreen(),
+      name: RegisterScreen.nombre,
     ),
   ],
 );
