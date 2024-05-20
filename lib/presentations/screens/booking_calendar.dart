@@ -1,5 +1,7 @@
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
+import 'package:go_router/go_router.dart';
 
 class BookingCalendarDemoApp extends StatefulWidget {
   static const String name = 'calendarioReserva';
@@ -18,8 +20,8 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     super.initState();
     mockBookingService = BookingService(
         serviceName: 'Servicio Simulado',
-        serviceDuration: 1,
-        bookingEnd: DateTime(now.year, now.month, now.day, 1),
+        serviceDuration: 60,
+        bookingEnd: DateTime(now.year, now.month, now.day, 11),
         bookingStart: DateTime(now.year, now.month, now.day, 0));
   }
 
@@ -29,43 +31,47 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   }
 
   Future<dynamic> uploadBookingMock(
-      {required BookingService newBooking}) async {
+      {required BookingService newBooking,
+      required BuildContext context}) async {
     await Future.delayed(const Duration(seconds: 1));
     // Simula la carga de una nueva reserva
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
     print('${newBooking.toJson()} ha sido cargada');
+
+    // Vuelve a la pantalla de inicio
+    GoRouter.of(context).go('/home');
   }
 
   List<DateTimeRange> converted = [];
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    // Implementa la lógica de conversión aquí
-    DateTime first = now;
-    DateTime tomorrow = now.add(const Duration(days: 0));
-    DateTime second = now.add(const Duration(minutes: 0));
-    DateTime third = now.subtract(const Duration(minutes: 0));
-    DateTime fourth = now.subtract(const Duration(minutes: 0));
-    converted.add(
-        DateTimeRange(start: first, end: now.add(const Duration(minutes: 0))));
-    converted.add(DateTimeRange(
-        start: second, end: second.add(const Duration(minutes: 0))));
-    converted.add(DateTimeRange(
-        start: third, end: third.add(const Duration(minutes: 0))));
-    converted.add(DateTimeRange(
-        start: fourth, end: fourth.add(const Duration(minutes: 0))));
-    converted.add(DateTimeRange(
-        start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0),
-        end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0)));
+    // Genera los rangos de tiempo para las horas de 1 a 10
+    for (int i = 0; i <= 10; i++) {
+      DateTime start = DateTime(now.year, now.month, now.day, i);
+      DateTime end = DateTime(now.year, now.month, now.day, i + 1);
+      converted.add(DateTimeRange(start: start, end: end));
+    }
+
     return converted;
   }
 
   List<DateTimeRange> generatePauseSlots() {
     return [
       DateTimeRange(
-          start: DateTime(now.year, now.month, now.day, 0),
-          end: DateTime(now.year, now.month, now.day, 0))
+          start: DateTime(now.year, now.month, now.day, 1),
+          end: DateTime(now.year, now.month, now.day, 1))
     ];
+  }
+
+// Función para formatear la hora
+  String formatHour(DateTime dateTime) {
+    int hour = dateTime.hour;
+    // Ajusta la hora si es mayor que 10
+    if (hour > 10) {
+      hour = hour % 10;
+    }
+    return 'P${hour.toString()}';
   }
 
   @override
@@ -89,7 +95,8 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           bookingService: mockBookingService,
           convertStreamResultToDateTimeRanges: convertStreamResultMock,
           getBookingStream: getBookingStreamMock,
-          uploadBooking: uploadBookingMock,
+          uploadBooking: ({required BookingService newBooking}) =>
+              uploadBookingMock(newBooking: newBooking, context: context),
           pauseSlots: generatePauseSlots(),
           pauseSlotText: 'desavilitado',
           hideBreakTime: false,
@@ -99,7 +106,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           startingDayOfWeek: StartingDayOfWeek.tuesday,
           wholeDayIsBookedWidget:
               const Text('Lo sentimos, todo está reservado para este día'),
-          bookingButtonText: 'Reservar'),
+          bookingButtonText: 'Reservar',
+          // Usa la función formatHour para formatear la hora
+          formatDateTime: formatHour),
     );
   }
 }
