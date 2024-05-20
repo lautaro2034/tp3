@@ -41,46 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDfWnx6kCA6510POKkRWU0BfXAMQTJh5hY',
-    appId: '1:473323408914:web:b770bf8874bf2c32ac92cb',
-    messagingSenderId: '473323408914',
-    projectId: 'egargedb',
-    authDomain: 'egargedb.firebaseapp.com',
-    storageBucket: 'egargedb.appspot.com',
+    apiKey: 'AIzaSyDOhU_Ce4tMhUkc4mrm7osAlITSHlUxaww',
+    appId: '1:446591971525:web:5550b4fa7a18683e0e80ac',
+    messagingSenderId: '446591971525',
+    projectId: 'dbgarage-82054',
+    authDomain: 'dbgarage-82054.firebaseapp.com',
+    storageBucket: 'dbgarage-82054.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAQVMNcmHezk2n_t8GR79kWem9sQaLBF_c',
-    appId: '1:473323408914:android:8711c2a73239b731ac92cb',
-    messagingSenderId: '473323408914',
-    projectId: 'egargedb',
-    storageBucket: 'egargedb.appspot.com',
+    apiKey: 'AIzaSyDVlN5yd-uBboAg7MAjxpjfiUthlBZUN98',
+    appId: '1:446591971525:android:ab2dfa5e8b73c7c20e80ac',
+    messagingSenderId: '446591971525',
+    projectId: 'dbgarage-82054',
+    storageBucket: 'dbgarage-82054.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD3rpT3_Pm1cxsRyIxKWBkzMEnNLqgjwtk',
-    appId: '1:473323408914:ios:c939e96da345ac9dac92cb',
-    messagingSenderId: '473323408914',
-    projectId: 'egargedb',
-    storageBucket: 'egargedb.appspot.com',
+    apiKey: 'AIzaSyCORgZe2LGvt9NMgmr5o2tRtF8Y63iA44g',
+    appId: '1:446591971525:ios:b86c45d20e6f86730e80ac',
+    messagingSenderId: '446591971525',
+    projectId: 'dbgarage-82054',
+    storageBucket: 'dbgarage-82054.appspot.com',
     iosBundleId: 'com.example.appDeEstacionamiento',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD3rpT3_Pm1cxsRyIxKWBkzMEnNLqgjwtk',
-    appId: '1:473323408914:ios:c939e96da345ac9dac92cb',
-    messagingSenderId: '473323408914',
-    projectId: 'egargedb',
-    storageBucket: 'egargedb.appspot.com',
+    apiKey: 'AIzaSyCORgZe2LGvt9NMgmr5o2tRtF8Y63iA44g',
+    appId: '1:446591971525:ios:b86c45d20e6f86730e80ac',
+    messagingSenderId: '446591971525',
+    projectId: 'dbgarage-82054',
+    storageBucket: 'dbgarage-82054.appspot.com',
     iosBundleId: 'com.example.appDeEstacionamiento',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDfWnx6kCA6510POKkRWU0BfXAMQTJh5hY',
-    appId: '1:473323408914:web:b5bc8dbd77c5ace9ac92cb',
-    messagingSenderId: '473323408914',
-    projectId: 'egargedb',
-    authDomain: 'egargedb.firebaseapp.com',
-    storageBucket: 'egargedb.appspot.com',
+    apiKey: 'AIzaSyDOhU_Ce4tMhUkc4mrm7osAlITSHlUxaww',
+    appId: '1:446591971525:web:f57cd81b0e2c1b4e0e80ac',
+    messagingSenderId: '446591971525',
+    projectId: 'dbgarage-82054',
+    authDomain: 'dbgarage-82054.firebaseapp.com',
+    storageBucket: 'dbgarage-82054.appspot.com',
   );
+
 }
