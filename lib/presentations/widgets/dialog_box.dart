@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BoxDialog extends StatelessWidget {
   VoidCallback onCancel;
 
   BoxDialog({
     super.key,
     required this.onCancel,
-    });
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,10 @@ class BoxDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text('Su auto esta en P1', style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),),
-
+            const Text(
+              'Su auto esta en P1',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             MaterialButton(onPressed: onCancel, child: const Text('Volver')),
           ],
         ),
