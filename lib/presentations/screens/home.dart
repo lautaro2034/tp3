@@ -1,6 +1,7 @@
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/form_reserva.dart';
+import 'package:app_de_estacionamiento/presentations/screens/pantalla_principal.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_menu_lateral.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_retiro_auto.dart';
@@ -22,12 +23,13 @@ class _HomeState extends State<Home> {
 
   void navigateBottomBar(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index + 1;
     });
   }
 
   // Paginas a mostrar
   final List<Widget> _pages = [
+    const pantallaPrincipal(),
     //registro de reserva
     const ConfirmReservationPage(),
 
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> {
     const RetirarAuto(),
 
     // Screen de busqueda de auto
-    const BuscadorAuto()
+    const BuscadorAuto(),
   ];
 
   @override
@@ -49,7 +51,9 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: MyButtomNavbar(
         onTabChange: (index) => navigateBottomBar(index),
       ),
-      body: _pages[_selectedIndex],
+      body: _selectedIndex == 0
+          ? const pantallaPrincipal()
+          : _pages[_selectedIndex],
     );
   }
 }
