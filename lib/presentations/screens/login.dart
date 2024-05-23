@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 class Login extends StatefulWidget {
   static const String name = 'Login';
 
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -43,12 +43,7 @@ class _LoginState extends State<Login> {
 
             //EMAIL
             TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  labelText: 'EMAIL',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  )),
+              decoration: InputDecoration(labelText: 'EMAIL'),
               onChanged: (value) {
                 setState(() {
                   _email = value;
@@ -58,10 +53,7 @@ class _LoginState extends State<Login> {
 
             // PASS
             TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  labelText: 'PASSWORD',
-                  labelStyle: TextStyle(color: Colors.white)),
+              decoration: InputDecoration(labelText: 'PASSWORD'),
               onChanged: (value) {
                 setState(() {
                   _clave = value;
