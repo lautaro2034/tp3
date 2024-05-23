@@ -94,6 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //EMAIL
             TextField(
+              style: TextStyle(color: Colors.white),
               controller: widget._emailTextController,
               decoration: InputDecoration(
                 hintText: 'Ingrese un correo',
@@ -108,6 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //PASSWORD
             TextField(
+              style: TextStyle(color: Colors.white),
               controller: widget._passWordTextController,
               decoration: InputDecoration(
                 hintText: 'Ingrese una clave',
@@ -122,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //NOMBRE
             TextField(
+              style: TextStyle(color: Colors.white),
               controller: widget._nombreTextController,
               decoration: InputDecoration(
                 hintText: 'Nombre',
@@ -136,6 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //APELLIDO
             TextField(
+              style: TextStyle(color: Colors.white),
               controller: widget._apellidoTextController,
               decoration: InputDecoration(
                 hintText: 'Apellido',
