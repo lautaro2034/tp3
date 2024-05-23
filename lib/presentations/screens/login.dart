@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
@@ -12,7 +11,7 @@ import 'package:go_router/go_router.dart';
 class Login extends StatefulWidget {
   static const String name = 'Login';
 
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
