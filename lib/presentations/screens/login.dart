@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
@@ -44,8 +43,7 @@ class _LoginState extends State<Login> {
 
             //EMAIL
             TextField(
-              decoration: const InputDecoration(labelText: 'EMAIL'),
-              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(labelText: 'EMAIL'),
               onChanged: (value) {
                 setState(() {
                   _email = value;
@@ -55,8 +53,7 @@ class _LoginState extends State<Login> {
 
             // PASS
             TextField(
-              decoration: const InputDecoration(labelText: 'PASSWORD'),
-              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(labelText: 'PASSWORD'),
               onChanged: (value) {
                 setState(() {
                   _clave = value;
