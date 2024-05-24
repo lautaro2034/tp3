@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 
 class ConfirmReservationPage extends StatefulWidget {
   //int index;
+  String idUsuario;
 
-  const ConfirmReservationPage({super.key});
+  ConfirmReservationPage({super.key, required this.idUsuario});
 
   @override
   // ignore: library_private_types_in_public_api

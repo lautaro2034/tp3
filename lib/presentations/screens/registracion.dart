@@ -94,9 +94,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //EMAIL
             TextField(
-              style: TextStyle(color: Colors.white),
-              controller: widget._emailTextController,
               style: const TextStyle(color: Colors.white),
+              controller: widget._emailTextController,
               decoration: InputDecoration(
                 hintText: 'Ingrese un correo',
                 hintStyle: const TextStyle(color: Colors.white),
@@ -110,9 +109,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //PASSWORD
             TextField(
-              style: TextStyle(color: Colors.white),
-              controller: widget._passWordTextController,
               style: const TextStyle(color: Colors.white),
+              controller: widget._passWordTextController,
               decoration: InputDecoration(
                 hintText: 'Ingrese una clave',
                 hintStyle: const TextStyle(color: Colors.white),
@@ -126,9 +124,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //NOMBRE
             TextField(
-              style: TextStyle(color: Colors.white),
-              controller: widget._nombreTextController,
               style: const TextStyle(color: Colors.white),
+              controller: widget._nombreTextController,
               decoration: InputDecoration(
                 hintText: 'Nombre',
                 hintStyle: const TextStyle(color: Colors.white),
@@ -142,9 +139,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             //APELLIDO
             TextField(
-              style: TextStyle(color: Colors.white),
-              controller: widget._apellidoTextController,
               style: const TextStyle(color: Colors.white),
+              controller: widget._apellidoTextController,
               decoration: InputDecoration(
                 hintText: 'Apellido',
                 hintStyle: const TextStyle(color: Colors.white),
@@ -175,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
 
-            SizedBox(height: 20.5),
+            const SizedBox(height: 20.5),
 
             Container(
               decoration: BoxDecoration(

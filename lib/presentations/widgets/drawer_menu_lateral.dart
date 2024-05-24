@@ -1,4 +1,5 @@
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
+import 'package:app_de_estacionamiento/presentations/screens/mis_reservas.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -71,15 +72,18 @@ class DrawerMenuLateral extends StatelessWidget {
                 ),
               ),
               // Icono de lista de...
-              const Padding(
-                padding: EdgeInsets.only(left: 25.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 14.0),
                 child: ListTile(
-                  leading: Icon(
-                    Icons.list_alt_rounded,
-                    color: Colors.white,
+                  leading: IconButton(
+                    onPressed: () {
+                      context.goNamed(MisReservas.name);
+                    },
+                    color: Colors.white, 
+                    icon: const Icon(Icons.list_alt_rounded),
                   ),
-                  title: Text(
-                    'lista de reservas',
+                  title: const Text(
+                    'Mis reservas',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
