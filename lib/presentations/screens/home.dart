@@ -31,7 +31,6 @@ class _HomeState extends State<Home> {
   final List<Widget> _pages = [
     const pantallaPrincipal(),
     //registro de reserva
-    ConfirmReservationPage(idUsuario: 'dsadasd'),
 
     // Calendario de las reservas
     //const AdminReservationCalendar(),
