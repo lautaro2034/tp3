@@ -32,9 +32,9 @@ class _HomeState extends State<Home> {
     pantallaPrincipal(),
     //registro de reserva
 
+    const ConfirmReservationPage(),
     // Calendario de las reservas
     //const AdminReservationCalendar(),
-
 
     // Screen de retiro de auto
     const RetirarAuto(),
