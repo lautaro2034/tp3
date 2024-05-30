@@ -44,7 +44,8 @@ class Usuario {
       String? email,
       String? contrasenia,
       String? nombre,
-      String? apellido}) {
+      String? apellido,
+      bool? esAdmin}) {
     return Usuario(
         id: id ?? this.id,
         email: email ?? this.email,
