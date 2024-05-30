@@ -1,29 +1,25 @@
-import 'dart:math';
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
+import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerWidget {
   static const String name = 'Login';
 
-  const Login({super.key});
+  const Login({Key? key});
 
   @override
-  State<Login> createState() => _LoginState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    String _email = '';
+    String _clave = '';
+    final db = FirebaseFirestore.instance;
 
-class _LoginState extends State<Login> {
-  String _email = '';
-  String _clave = '';
-  final db = FirebaseFirestore.instance;
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: _buildAppBar(),
@@ -45,9 +41,7 @@ class _LoginState extends State<Login> {
             TextField(
               decoration: InputDecoration(labelText: 'EMAIL'),
               onChanged: (value) {
-                setState(() {
-                  _email = value;
-                });
+                _email = value;
               },
             ),
 
@@ -55,23 +49,9 @@ class _LoginState extends State<Login> {
             TextField(
               decoration: InputDecoration(labelText: 'PASSWORD'),
               onChanged: (value) {
-                setState(() {
-                  _clave = value;
-                });
+                _clave = value;
               },
             ),
-
-            /*const InputTextLogin(
-                hintText: 'Ingresa tu correo',
-                icon: Icon(Icons.email_outlined),
-              ),
-
-            //PASSWORD
-            const InputTextLogin(
-              hintText: 'Ingresa tu contraseña',
-              icon: Icon(Icons.key),
-            ),
-            */
 
             //Olvdaste la contraseña?
             Container(
@@ -130,6 +110,12 @@ class _LoginState extends State<Login> {
                             if (userEmail == _email) {
                               // Verificar si la contraseña ingresada coincide con la almacenada
                               if (userPassword == _clave) {
+                                ref.read(usuarioProvider.notifier).setUsuario(
+                                    userData['id'],
+                                    userData['nombre'],
+                                    userData['apellido'],
+                                    userData['email'],
+                                    userData['contrasenia']);
                                 // Usuario autenticado con éxito
                                 context.goNamed(Home.name);
                               } else {
@@ -159,15 +145,6 @@ class _LoginState extends State<Login> {
             const SizedBox(
               height: 20.5,
             ),
-
-            /*Container(
-              margin: const EdgeInsets.only(top: 10),
-              alignment: Alignment.center,
-              child: const Text('¿No tenes cuenta? Registrate!',
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-            ),*/
 
             //Registrarse / Crear contraseña
             Container(

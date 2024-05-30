@@ -97,7 +97,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           uploadBooking: ({required BookingService newBooking}) =>
               uploadBookingMock(newBooking: newBooking, context: context),
           pauseSlots: generatePauseSlots(),
-          pauseSlotText: 'desavilitado',
+          pauseSlotText: 'Deshabilitado',
           hideBreakTime: false,
           loadingWidget: const Text('Obteniendo datos...'),
           uploadingWidget: const CircularProgressIndicator(),

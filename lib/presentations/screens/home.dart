@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
 
   // Paginas a mostrar
   final List<Widget> _pages = [
-    const pantallaPrincipal(),
+    pantallaPrincipal(),
     //registro de reserva
     const ConfirmReservationPage(),
 
@@ -51,9 +51,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: MyButtomNavbar(
         onTabChange: (index) => navigateBottomBar(index),
       ),
-      body: _selectedIndex == 0
-          ? const pantallaPrincipal()
-          : _pages[_selectedIndex],
+      body: _selectedIndex == 0 ? pantallaPrincipal() : _pages[_selectedIndex],
     );
   }
 }

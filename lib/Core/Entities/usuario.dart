@@ -37,4 +37,29 @@ class Usuario {
       apellido: data?['apellido'],
     );
   }
+
+  //Sirve para editar datos
+  Usuario copywith(
+      {String? id,
+      String? email,
+      String? contrasenia,
+      String? nombre,
+      String? apellido}) {
+    return Usuario(
+        id: id ?? this.id,
+        email: email ?? this.email,
+        contrasenia: contrasenia ?? this.contrasenia,
+        nombre: nombre ?? this.nombre,
+        apellido: apellido ?? this.apellido);
+  }
+
+  String get recuperarId {
+    return id;
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "el id: ${id}, en nombre: ${nombre},  el apellido ${apellido} el correo  ${email}, contrasenia: ${contrasenia} ";
+  }
 }

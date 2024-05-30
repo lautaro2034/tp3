@@ -31,7 +31,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/pantallaPrincipal',
-      builder: (context, state) => const pantallaPrincipal(),
+      builder: (context, state) => pantallaPrincipal(),
       name: pantallaPrincipal.name,
     ),
   ],

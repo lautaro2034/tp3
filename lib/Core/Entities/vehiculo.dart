@@ -1,32 +1,36 @@
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Auto {
+class Vehiculo {
   String? modelo;
   String? marca;
   String? patente;
-  Usuario? duenio;
+  String? idDuenio;
 
-  Auto({required patente, required marca, required modelo, required duenio});
+  Vehiculo(
+      {required this.patente,
+      required this.marca,
+      required this.modelo,
+      required this.idDuenio});
 
   Map<String, dynamic> toFireStore() {
     return {
       if (modelo != null) "modelo": modelo,
       if (marca != null) "marca": marca,
       if (patente != null) "patente": patente,
-      if (duenio != null) "duenio": duenio,
+      if (idDuenio != null) "idDuenio": idDuenio, // Convertir a Map
     };
   }
 
-  factory Auto.fromFirestore(
+  factory Vehiculo.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
-    return Auto(
+    return Vehiculo(
         modelo: data?['modelo'],
         marca: data?['marca'],
         patente: data?['patente'],
-        duenio: data?['duenio']);
+        idDuenio: data?['patente']);
   }
 }
