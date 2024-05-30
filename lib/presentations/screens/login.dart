@@ -39,7 +39,8 @@ class Login extends ConsumerWidget {
 
             //EMAIL
             TextField(
-              decoration: InputDecoration(labelText: 'EMAIL'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(labelText: 'EMAIL'),
               onChanged: (value) {
                 _email = value;
               },
@@ -47,7 +48,8 @@ class Login extends ConsumerWidget {
 
             // PASS
             TextField(
-              decoration: InputDecoration(labelText: 'PASSWORD'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(labelText: 'PASSWORD'),
               onChanged: (value) {
                 _clave = value;
               },

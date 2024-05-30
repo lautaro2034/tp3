@@ -6,12 +6,14 @@ import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
 //import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
 import 'package:go_router/go_router.dart';
 
+import '../presentations/screens/mis_reservas.dart';
+
 // GoRouter configuration
 final appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Login(),
+      builder: (context, state) => const Login(),
       name: Login.name,
     ),
     GoRoute(
@@ -33,6 +35,11 @@ final appRouter = GoRouter(
       path: '/pantallaPrincipal',
       builder: (context, state) => pantallaPrincipal(),
       name: pantallaPrincipal.name,
+    ),
+    GoRoute(
+      path: '/misReservas',
+      builder: (context, state) => const MisReservas(),
+      name: MisReservas.name,
     ),
   ],
 );

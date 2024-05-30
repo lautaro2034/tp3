@@ -31,10 +31,10 @@ class _HomeState extends State<Home> {
   final List<Widget> _pages = [
     pantallaPrincipal(),
     //registro de reserva
-    const ConfirmReservationPage(),
 
     // Calendario de las reservas
     //const AdminReservationCalendar(),
+
 
     // Screen de retiro de auto
     const RetirarAuto(),

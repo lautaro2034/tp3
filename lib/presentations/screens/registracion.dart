@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
 
-            SizedBox(height: 20.5),
+            const SizedBox(height: 20.5),
 
             Container(
               decoration: BoxDecoration(
