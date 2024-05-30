@@ -9,7 +9,7 @@ class BookingCalendarDemoApp extends StatefulWidget {
   @override
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
 }
-
+/*
 class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   final now = DateTime.now();
   late BookingService mockBookingService;
@@ -70,7 +70,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     if (hour > 10) {
       hour = hour % 10;
     }
-    return 'P${hour.toString()}';
+    return 'p${hour.toString()}';
   }
 
   @override
@@ -110,4 +110,4 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           formatDateTime: formatHour),
     );
   }
-}
+}*/
