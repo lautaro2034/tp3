@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   void navigateBottomBar(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index + 1;
     });
   }
 
