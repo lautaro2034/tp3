@@ -33,16 +33,16 @@ class _HomeState extends State<Home> {
     pantallaPrincipal(),
     //registro de reserva
 
+    const ConfirmReservationPage(),
     // Calendario de las reservas
     const Calendar_demo(),
     //const AdminReservationCalendar(),
 
-
     // Screen de retiro de auto
-    const RetirarAuto(),
 
     // Screen de busqueda de auto
     const BuscadorAuto(),
+    const RetirarAuto(),
   ];
 
   @override
