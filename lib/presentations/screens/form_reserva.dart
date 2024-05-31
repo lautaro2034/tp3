@@ -8,17 +8,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ConfirmReservationPage extends ConsumerWidget {
-  const ConfirmReservationPage({Key? key});
+class ConfirmReservationPage extends ConsumerStatefulWidget {
+  const ConfirmReservationPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _ConfirmReservationPageState createState() => _ConfirmReservationPageState();
+}
+
+class _ConfirmReservationPageState
+    extends ConsumerState<ConfirmReservationPage> {
+  final TextEditingController _marcaController = TextEditingController();
+  final TextEditingController _modeloController = TextEditingController();
+  final TextEditingController _patenteController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _marcaController.addListener(_validateForm);
+    _modeloController.addListener(_validateForm);
+    _patenteController.addListener(_validateForm);
+  }
+
+  void _validateForm() {
+    setState(() {
+      _isButtonEnabled = _marcaController.text.isNotEmpty &&
+          _modeloController.text.isNotEmpty &&
+          _patenteController.text.isNotEmpty;
+    });
+  }
+
+  @override
+  void dispose() {
+    _marcaController.dispose();
+    _modeloController.dispose();
+    _patenteController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final usuarioState = ref.watch(usuarioProvider);
     final db = FirebaseFirestore.instance;
-    TextEditingController _marcaController = TextEditingController();
-    TextEditingController _modeloController = TextEditingController();
-    TextEditingController _patenteController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
 
     return GestureDetector(
       onTap: () {
@@ -66,35 +98,40 @@ class ConfirmReservationPage extends ConsumerWidget {
                         ),
                         const SizedBox(height: 50),
                         ElevatedButton(
-                          onPressed: () async {
-                            String idDocVehiculo =
-                                db.collection('vehiculos').doc().id;
+                          onPressed: _isButtonEnabled
+                              ? () async {
+                                  String idDocVehiculo =
+                                      db.collection('vehiculos').doc().id;
 
-                            final nuevoVehiculo = Vehiculo(
-                              patente: _patenteController.text,
-                              marca: _marcaController.text,
-                              modelo: _modeloController.text,
-                              idDuenio: usuarioState
-                                  .id, // Convertir a usuario de Firestore
-                            );
+                                  final nuevoVehiculo = Vehiculo(
+                                    patente: _patenteController.text,
+                                    marca: _marcaController.text,
+                                    modelo: _modeloController.text,
+                                    idDuenio: usuarioState
+                                        .id, // Convertir a usuario de Firestore
+                                  );
 
-                            final nuevoUsuarioVehiculo = usuarioVehiculo(
-                              idUsuario: usuarioState.id,
-                              idVehiculo:
-                                  idDocVehiculo, // Usar el ID único del vehículo
-                            );
+                                  final nuevoUsuarioVehiculo = usuarioVehiculo(
+                                    idUsuario: usuarioState.id,
+                                    idVehiculo:
+                                        idDocVehiculo, // Usar el ID único del vehículo
+                                  );
 
-                            await db
-                                .collection('Vehiculos')
-                                .doc(idDocVehiculo)
-                                .set(nuevoVehiculo.toFireStore());
+                                  await db
+                                      .collection('Vehiculos')
+                                      .doc(idDocVehiculo)
+                                      .set(nuevoVehiculo.toFireStore());
 
-                            await db
-                                .collection('UsuariosVehiculos')
-                                .add(nuevoUsuarioVehiculo.toFirestore());
-                            context.goNamed(BookingCalendarDemoApp.name);
-                          },
-                          child: const Center(child: Text('confirmar')),
+                                  await db
+                                      .collection('UsuariosVehiculos')
+                                      .add(nuevoUsuarioVehiculo.toFirestore());
+
+                                  context.goNamed(BookingCalendarDemoApp.name);
+                                }
+                              : null,
+                          child: const Center(
+                            child: Text('Confirmar'),
+                          ),
                         ),
                       ],
                     ),

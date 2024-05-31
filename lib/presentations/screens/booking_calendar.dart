@@ -1,6 +1,5 @@
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:booking_calendar/booking_calendar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -37,6 +36,10 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     setState(() {
       buttonDataList[index].isReserved = true;
     });
+  }
+
+  bool _hasReservation() {
+    return buttonDataList.any((button) => button.isReserved);
   }
 
   @override
@@ -112,7 +115,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ],
         ),
       ),
-      floatingActionButton: selectedDate != null
+      floatingActionButton: (selectedDate != null && _hasReservation())
           ? FloatingActionButton(
               onPressed: () {
                 context.goNamed(Home.name);
