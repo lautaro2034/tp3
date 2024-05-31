@@ -28,7 +28,7 @@ class pantallaPrincipal extends StatelessWidget {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
 
               if (snapshot.connectionState == ConnectionState.done) {
@@ -66,11 +66,11 @@ class pantallaPrincipal extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return Text("Datos no encontrados");
+                  return const Text("Datos no encontrados");
                 }
               }
 
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
         ),

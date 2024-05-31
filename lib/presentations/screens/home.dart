@@ -1,5 +1,6 @@
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/calendar_demo.dart';
 import 'package:app_de_estacionamiento/presentations/screens/form_reserva.dart';
 import 'package:app_de_estacionamiento/presentations/screens/pantalla_principal.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
 
   void navigateBottomBar(int index) {
     setState(() {
-      _selectedIndex = index + 1;
+      _selectedIndex = index;
     });
   }
 
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
 
     const ConfirmReservationPage(),
     // Calendario de las reservas
+    const Calendar_demo(),
     //const AdminReservationCalendar(),
 
     // Screen de retiro de auto
