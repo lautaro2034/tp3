@@ -37,10 +37,10 @@ class _HomeState extends State<Home> {
     //const AdminReservationCalendar(),
 
     // Screen de retiro de auto
-    const RetirarAuto(),
 
     // Screen de busqueda de auto
     const BuscadorAuto(),
+    const RetirarAuto(),
   ];
 
   @override

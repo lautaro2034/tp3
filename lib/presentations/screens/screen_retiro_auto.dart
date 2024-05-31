@@ -1,4 +1,5 @@
 import 'package:app_de_estacionamiento/presentations/widgets/dialog_box_retiro.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class RetirarAuto extends StatefulWidget {
@@ -25,6 +26,11 @@ class _RetirarAutoState extends State<RetirarAuto> {
 
   @override
   Widget build(BuildContext context) {
+    final db = FirebaseFirestore.instance;
+    TextEditingController _marcaController = TextEditingController();
+    TextEditingController _modeloController = TextEditingController();
+    TextEditingController _patenteController = TextEditingController();
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
