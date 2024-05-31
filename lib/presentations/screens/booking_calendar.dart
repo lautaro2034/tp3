@@ -34,6 +34,11 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   void _reservePosition(int index) {
     setState(() {
+      // Deselect any previously selected button
+      for (var button in buttonDataList) {
+        button.isReserved = false;
+      }
+      // Reserve the newly selected button
       buttonDataList[index].isReserved = true;
     });
   }
