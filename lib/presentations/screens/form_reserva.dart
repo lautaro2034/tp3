@@ -20,6 +20,7 @@ class _ConfirmReservationPageState
   final TextEditingController _marcaController = TextEditingController();
   final TextEditingController _modeloController = TextEditingController();
   final TextEditingController _patenteController = TextEditingController();
+  final FocusNode _patenteFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isButtonEnabled = false;
 
@@ -29,14 +30,43 @@ class _ConfirmReservationPageState
     _marcaController.addListener(_validateForm);
     _modeloController.addListener(_validateForm);
     _patenteController.addListener(_validateForm);
+
+    _patenteFocusNode.addListener(() {
+      if (!_patenteFocusNode.hasFocus) {
+        // Cuando pierde el foco, validar el campo de patente
+        final errorMessage = _validatePatente(_patenteController.text);
+        if (errorMessage != null) {
+          // Mostrar el snackbar con el mensaje de error
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    });
   }
 
   void _validateForm() {
     setState(() {
       _isButtonEnabled = _marcaController.text.isNotEmpty &&
           _modeloController.text.isNotEmpty &&
-          _patenteController.text.isNotEmpty;
+          _patenteController.text.isNotEmpty &&
+          _validatePatente(_patenteController.text) == null;
     });
+  }
+
+  String? _validatePatente(String value) {
+    final regex1 = RegExp(r'^[A-Za-z]{3}\d{3}$'); // AAA123
+    final regex2 = RegExp(r'^[A-Za-z]{2}\d{3}[A-Za-z]{2}$'); // AA123AA
+
+    if (value.isEmpty) {
+      return 'La patente no puede estar vacía';
+    } else if (!regex1.hasMatch(value) && !regex2.hasMatch(value)) {
+      return 'Patente no válida. Debe ser 3 letras y 3 números o 2 letras, 3 números y 2 letras.';
+    }
+    return null;
   }
 
   @override
@@ -44,6 +74,7 @@ class _ConfirmReservationPageState
     _marcaController.dispose();
     _modeloController.dispose();
     _patenteController.dispose();
+    _patenteFocusNode.dispose();
     super.dispose();
   }
 
@@ -83,6 +114,7 @@ class _ConfirmReservationPageState
                         const SizedBox(height: 55),
                         TextFormField(
                           controller: _patenteController,
+                          focusNode: _patenteFocusNode,
                           decoration: const InputDecoration(
                             labelText: 'Patente',
                             border: OutlineInputBorder(),
@@ -100,33 +132,33 @@ class _ConfirmReservationPageState
                         ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () async {
-                                  String idDocVehiculo =
-                                      db.collection('vehiculos').doc().id;
+                                  if (_formKey.currentState!.validate()) {
+                                    String idDocVehiculo =
+                                        db.collection('vehiculos').doc().id;
 
-                                  final nuevoVehiculo = Vehiculo(
-                                    patente: _patenteController.text,
-                                    marca: _marcaController.text,
-                                    modelo: _modeloController.text,
-                                    idDuenio: usuarioState
-                                        .id, // Convertir a usuario de Firestore
-                                  );
+                                    final nuevoVehiculo = Vehiculo(
+                                      patente: _patenteController.text,
+                                      marca: _marcaController.text,
+                                      modelo: _modeloController.text,
+                                      idDuenio: usuarioState.id,
+                                    );
 
-                                  final nuevoUsuarioVehiculo = usuarioVehiculo(
-                                    idUsuario: usuarioState.id,
-                                    idVehiculo:
-                                        idDocVehiculo, // Usar el ID único del vehículo
-                                  );
+                                    final nuevoUsuarioVehiculo = usuarioVehiculo(
+                                      idUsuario: usuarioState.id,
+                                      idVehiculo: idDocVehiculo,
+                                    );
 
-                                  await db
-                                      .collection('Vehiculos')
-                                      .doc(idDocVehiculo)
-                                      .set(nuevoVehiculo.toFireStore());
+                                    await db
+                                        .collection('Vehiculos')
+                                        .doc(idDocVehiculo)
+                                        .set(nuevoVehiculo.toFireStore());
 
-                                  await db
-                                      .collection('UsuariosVehiculos')
-                                      .add(nuevoUsuarioVehiculo.toFirestore());
+                                    await db
+                                        .collection('UsuariosVehiculos')
+                                        .add(nuevoUsuarioVehiculo.toFirestore());
 
-                                  context.goNamed(BookingCalendarDemoApp.name);
+                                    context.goNamed(BookingCalendarDemoApp.name);
+                                  }
                                 }
                               : null,
                           child: const Center(
