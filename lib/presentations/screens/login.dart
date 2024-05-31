@@ -9,29 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerWidget {
   static const String name = 'Login';
 
-  const Login({Key? key}) : super(key: key);
+  const Login({Key? key});
 
   @override
-  _LoginState createState() => _LoginState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    String _email = '';
+    String _clave = '';
+    final db = FirebaseFirestore.instance;
 
-class _LoginState extends State<Login> {
-  String _email = '';
-  String _clave = '';
-  final ValueNotifier<bool> _showPassword =
-      ValueNotifier<bool>(false); // Usar ValueNotifier
-
-  @override
-  void dispose() {
-    _showPassword.dispose(); // Liberar recursos
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: _buildAppBar(),
@@ -46,10 +34,10 @@ class _LoginState extends State<Login> {
               size: 120,
             ),
 
-            // Espacio
+            //Espacio
             const SizedBox(height: 40),
 
-            // EMAIL
+            //EMAIL
             TextField(
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(labelText: 'EMAIL'),
@@ -58,36 +46,16 @@ class _LoginState extends State<Login> {
               },
             ),
 
-            // CONTRASEÑA
-            ValueListenableBuilder<bool>(
-              valueListenable: _showPassword,
-              builder: (context, showPassword, _) {
-                return TextField(
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: 'PASSWORD',
-                    // Configuración del campo de contraseña para que sea oculto
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        showPassword ? Icons.visibility : Icons.visibility_off,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {
-                        _showPassword.value = !_showPassword
-                            .value; // Alternar visibilidad de la contraseña
-                      },
-                    ),
-                  ),
-                  // Configuración del campo de contraseña para que sea oculto o visible según el estado
-                  obscureText: !showPassword,
-                  onChanged: (value) {
-                    _clave = value;
-                  },
-                );
+            // PASS
+            TextField(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(labelText: 'PASSWORD'),
+              onChanged: (value) {
+                _clave = value;
               },
             ),
 
-            // Olvidaste la contraseña?
+            //Olvdaste la contraseña?
             Container(
               margin: const EdgeInsets.only(left: 10),
               child: Text(
@@ -98,10 +66,10 @@ class _LoginState extends State<Login> {
               ),
             ),
 
-            // Espacio
+            //Espacio
             const SizedBox(height: 50),
 
-            // Loguearse
+            //Loguearse
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -117,7 +85,61 @@ class _LoginState extends State<Login> {
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                   onPressed: () async {
-                    // Resto del código omitido por brevedad
+                    try {
+                      // Realizar la consulta a Firestore para obtener el usuario con el correo electrónico especificado
+                      QuerySnapshot querySnapshot = await FirebaseFirestore
+                          .instance
+                          .collection("users")
+                          .where("email", isEqualTo: _email)
+                          .get();
+
+                      if (querySnapshot.docs.isNotEmpty) {
+                        // Obtener el primer documento que cumple con la consulta
+                        QueryDocumentSnapshot userDocument =
+                            querySnapshot.docs.first;
+
+                        // Obtener los datos del usuario
+                        Map<String, dynamic>? userData =
+                            userDocument.data() as Map<String, dynamic>?;
+
+                        if (userData != null) {
+                          String? userEmail = userData['email'] as String?;
+                          String? userPassword =
+                              userData['contrasenia'] as String?;
+
+                          if (userEmail != null && userPassword != null) {
+                            // Verificar si el correo electrónico ingresado coincide con el almacenado
+                            if (userEmail == _email) {
+                              // Verificar si la contraseña ingresada coincide con la almacenada
+                              if (userPassword == _clave) {
+                                ref.read(usuarioProvider.notifier).setUsuario(
+                                    userData['id'],
+                                    userData['nombre'],
+                                    userData['apellido'],
+                                    userData['email'],
+                                    userData['contrasenia']);
+                                // Usuario autenticado con éxito
+                                context.goNamed(Home.name);
+                              } else {
+                                print('Contraseña incorrecta.');
+                              }
+                            } else {
+                              print(
+                                  'El correo electrónico ingresado no coincide con ningún usuario.');
+                            }
+                          } else {
+                            print('Los datos del usuario están incompletos.');
+                          }
+                        } else {
+                          print('No se encontraron datos del usuario.');
+                        }
+                      } else {
+                        print('Usuario no encontrado.');
+                      }
+                    } catch (e) {
+                      print('Error: $e');
+                      // Manejar el error
+                    }
                   },
                   child: const Text('Login')),
             ),
@@ -126,7 +148,7 @@ class _LoginState extends State<Login> {
               height: 20.5,
             ),
 
-            // Registrarse / Crear contraseña
+            //Registrarse / Crear contraseña
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -142,7 +164,7 @@ class _LoginState extends State<Login> {
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    // Resto del código omitido por brevedad
+                    context.goNamed(RegisterScreen.nombre);
                   },
                   child: const Text('Registrate')),
             ),
