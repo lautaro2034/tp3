@@ -1,6 +1,8 @@
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class BookingCalendarDemoApp extends StatefulWidget {
   static const String name = 'calendarioReserva';
@@ -10,6 +12,123 @@ class BookingCalendarDemoApp extends StatefulWidget {
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
 }
 
+class ButtonData {
+  final int id;
+  bool isReserved;
+
+  ButtonData(this.id, this.isReserved);
+}
+
+class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
+  DateTime? selectedDate;
+  List<ButtonData> buttonDataList =
+      List<ButtonData>.generate(11, (index) => ButtonData(index, false));
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      selectedDate = selectedDay;
+      // Reset the reservations for the new date
+      buttonDataList =
+          List<ButtonData>.generate(11, (index) => ButtonData(index, false));
+    });
+  }
+
+  void _reservePosition(int index) {
+    setState(() {
+      buttonDataList[index].isReserved = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Reservas"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TableCalendar(
+              firstDay: DateTime(2000),
+              lastDay: DateTime(2101),
+              focusedDay: selectedDate ?? DateTime.now(),
+              selectedDayPredicate: (day) {
+                return isSameDay(selectedDate, day);
+              },
+              onDaySelected: _onDaySelected,
+              headerStyle: const HeaderStyle(
+                formatButtonVisible: false,
+                titleCentered: true,
+              ),
+            ),
+            if (selectedDate != null) ...[
+              const SizedBox(height: 10),
+              Text(
+                "Fecha seleccionada: ${selectedDate!.toLocal()}".split(' ')[0],
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 2, // Make buttons rectangular
+                  ),
+                  itemCount: buttonDataList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: buttonDataList[index].isReserved
+                          ? null
+                          : () => _reservePosition(index),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: buttonDataList[index].isReserved
+                              ? Colors.red
+                              : Colors.blue,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "p${buttonDataList[index].id}",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+      floatingActionButton: selectedDate != null
+          ? FloatingActionButton(
+              onPressed: () {
+                context.goNamed(Home.name);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Reservas confirmadas!"),
+                ));
+              },
+              tooltip: 'Reservar',
+              child: const Icon(Icons.check),
+            )
+          : null,
+    );
+  }
+}
+
+/*
 class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   final now = DateTime.now();
   late BookingService mockBookingService;
@@ -70,7 +189,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     if (hour > 10) {
       hour = hour % 10;
     }
-    return 'P${hour.toString()}';
+    return 'p${hour.toString()}';
   }
 
   @override
@@ -110,4 +229,4 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           formatDateTime: formatHour),
     );
   }
-}
+}*/
