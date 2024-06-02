@@ -20,7 +20,7 @@ class LoteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: isSelected ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected ? Colors.red[400] : Colors.green[300]
       ),

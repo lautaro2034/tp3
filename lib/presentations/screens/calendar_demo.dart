@@ -14,20 +14,26 @@ class _Calendar_demoState extends State<Calendar_demo> {
 
 final algunasReservas = [
 
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 1),
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 2),
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 3),
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 4),
+    Reserva(fecha: 7, lote: 1),
+    Reserva(fecha: 15, lote: 2),
+    Reserva(fecha: 6, lote: 3),
+    Reserva(fecha: 10, lote: 4),
     
   ];
 
-
+  List<Reserva> reservasDelDia = [];
   int? _selectedButtonIndex;
-  String? fechaSeleccionada;
+  int? fechaSeleccionada;
 
   void _onButtonPressed(int index) {
     setState(() {
       _selectedButtonIndex = index;
+    });
+  }
+
+  void _filtrarReservasPorFecha(int dia){
+    setState(() {
+      reservasDelDia = algunasReservas.where((reserva) => reserva.fecha == dia).toList();
     });
   }
 
@@ -42,10 +48,13 @@ final algunasReservas = [
           initialDate: DateTime.now(), 
           firstDate: DateTime(kToday.year, kToday.month - 3, kToday.day), 
           lastDate: DateTime(kToday.year, kToday.month + 3, kToday.day), 
+          //currentDate: DateTime(2024, 06, 09),
           onDateChanged: (DateTime value) { 
             setState(() {
-              fechaSeleccionada = value.toString();
+              fechaSeleccionada = value.day;
+              _selectedButtonIndex = null;
             });
+            _filtrarReservasPorFecha(fechaSeleccionada!);
            },
         ),
 
@@ -55,10 +64,10 @@ final algunasReservas = [
             child: Wrap(
               spacing: 8.0, // Espacio horizontal entre los elementos
               runSpacing: 8.0, // Espacio vertical entre las filas
-              children: List.generate(10, (index) {
+              children: List.generate(10, (nroLote) {
                 bool isSelected = false;
-                for (var reserva in algunasReservas) {
-                  if (reserva.lote == index) {
+                for (var reserva in reservasDelDia) {
+                  if (reserva.lote == nroLote) {
                     isSelected = true;
                     break;
                   }
@@ -66,10 +75,11 @@ final algunasReservas = [
 
                 return SizedBox(
                   height: 80,
+
                   child: LoteButton(
-                    identificador: 'P$index', 
-                    isSelected: isSelected,
-                    onPressed: () => _onButtonPressed(index),
+                    identificador: 'P$nroLote', 
+                    isSelected: _selectedButtonIndex == nroLote || isSelected,
+                    onPressed: () => _onButtonPressed(nroLote)
                     ));
               }),
             ),
@@ -77,8 +87,12 @@ final algunasReservas = [
         ),
 
         ElevatedButton(onPressed: () {
-         Reserva reserva = Reserva(fecha: fechaSeleccionada!, lote: _selectedButtonIndex!);
-          print(reserva.getData());
+          if ( fechaSeleccionada != null && _selectedButtonIndex != null ){
+            Reserva reserva = Reserva(fecha: fechaSeleccionada!, lote: _selectedButtonIndex!);
+            print(reserva.getData());
+          } else {
+            print('Seleccione una fecha y un lote');
+          }
         }, 
         child: const Text('Reservar'))
         

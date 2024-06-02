@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final reservaProvider = StateProvider<List<Reserva>>((ref) {
   return [
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 1),
+    /*Reserva(fecha: "2024-05-31 00:00:00", lote: 1),
     Reserva(fecha: "2024-05-31 00:00:00", lote: 2),
     Reserva(fecha: "2024-05-31 00:00:00", lote: 3),
-    Reserva(fecha: "2024-05-31 00:00:00", lote: 4),
+    Reserva(fecha: "2024-05-31 00:00:00", lote: 4),*/
   ];
 });
 

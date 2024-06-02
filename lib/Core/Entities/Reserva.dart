@@ -2,8 +2,7 @@ import 'package:app_de_estacionamiento/presentations/widgets/lote.dart';
 
 class Reserva {
 
-
-  String fecha;
+  int fecha;
   int lote;
 
   Reserva({
@@ -12,7 +11,7 @@ class Reserva {
   });
 
   String getData(){
-    return '${fecha}numero de lote $lote';
+    return 'Dia reservado: $fecha, numero de lote $lote';
   }
 
 
