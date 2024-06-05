@@ -1,6 +1,6 @@
+import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:booking_calendar/booking_calendar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -15,14 +15,24 @@ class BookingCalendarDemoApp extends StatefulWidget {
 class ButtonData {
   final int id;
   bool isReserved;
+  bool isConfirmed;
 
-  ButtonData(this.id, this.isReserved);
+  ButtonData(this.id, this.isReserved, {this.isConfirmed = false});
 }
 
 class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   DateTime? selectedDate;
   List<ButtonData> buttonDataList =
       List<ButtonData>.generate(11, (index) => ButtonData(index, false));
+  List<Reserva> reservasDelDia = [];
+  int? _selectedButtonIndex;
+
+  final algunasReservas = [
+    Reserva(fecha: 7, lote: 1),
+    Reserva(fecha: 15, lote: 2),
+    Reserva(fecha: 6, lote: 3),
+    Reserva(fecha: 10, lote: 4),
+  ];
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
@@ -30,13 +40,61 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
       // Reset the reservations for the new date
       buttonDataList =
           List<ButtonData>.generate(11, (index) => ButtonData(index, false));
+      _selectedButtonIndex = null;
+      _filtrarReservasPorFecha(selectedDay.day);
     });
   }
 
   void _reservePosition(int index) {
     setState(() {
+      // Prevent modifying already confirmed reservations
+      if (buttonDataList[index].isConfirmed) return;
+
+      // Deselect any previously selected button
+      for (var button in buttonDataList) {
+        if (!button.isConfirmed) {
+          button.isReserved = false;
+        }
+      }
+
+      // Reserve the newly selected button
       buttonDataList[index].isReserved = true;
+      _selectedButtonIndex = index;
     });
+  }
+
+  bool _hasReservation() {
+    return buttonDataList.any((button) => button.isReserved);
+  }
+
+  void _filtrarReservasPorFecha(int dia) {
+    setState(() {
+      reservasDelDia =
+          algunasReservas.where((reserva) => reserva.fecha == dia).toList();
+      for (var reserva in reservasDelDia) {
+        if (reserva.lote < buttonDataList.length) {
+          buttonDataList[reserva.lote].isReserved = true;
+          buttonDataList[reserva.lote].isConfirmed = true;
+        }
+      }
+    });
+  }
+
+  void _confirmReservation() {
+    if (selectedDate != null && _selectedButtonIndex != null) {
+      setState(() {
+        buttonDataList[_selectedButtonIndex!].isConfirmed = true;
+      });
+      Reserva reserva =
+          Reserva(fecha: selectedDate!.day, lote: _selectedButtonIndex!);
+      print(reserva.getData());
+      context.goNamed(Home.name);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Reservas confirmadas!"),
+      ));
+    } else {
+      print('Seleccione una fecha y un lote');
+    }
   }
 
   @override
@@ -79,15 +137,22 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                   ),
                   itemCount: buttonDataList.length,
                   itemBuilder: (context, index) {
+                    Color buttonColor;
+                    if (buttonDataList[index].isConfirmed) {
+                      buttonColor = Colors.red;
+                    } else if (buttonDataList[index].isReserved) {
+                      buttonColor = Colors.yellow;
+                    } else {
+                      buttonColor = Colors.blue;
+                    }
+
                     return GestureDetector(
-                      onTap: buttonDataList[index].isReserved
+                      onTap: buttonDataList[index].isConfirmed
                           ? null
                           : () => _reservePosition(index),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: buttonDataList[index].isReserved
-                              ? Colors.red
-                              : Colors.blue,
+                          color: buttonColor,
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: const [
                             BoxShadow(
@@ -112,14 +177,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ],
         ),
       ),
-      floatingActionButton: selectedDate != null
+      floatingActionButton: (selectedDate != null && _hasReservation())
           ? FloatingActionButton(
-              onPressed: () {
-                context.goNamed(Home.name);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Reservas confirmadas!"),
-                ));
-              },
+              onPressed: _confirmReservation,
               tooltip: 'Reservar',
               child: const Icon(Icons.check),
             )
@@ -127,106 +187,3 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     );
   }
 }
-
-/*
-class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
-  final now = DateTime.now();
-  late BookingService mockBookingService;
-
-  @override
-  void initState() {
-    super.initState();
-    mockBookingService = BookingService(
-        serviceName: 'Servicio Simulado',
-        serviceDuration: 60,
-        bookingEnd: DateTime(now.year, now.month, now.day, 11),
-        bookingStart: DateTime(now.year, now.month, now.day, 0));
-  }
-
-  Stream<dynamic>? getBookingStreamMock(
-      {required DateTime end, required DateTime start}) {
-    return Stream.value([]);
-  }
-
-  Future<dynamic> uploadBookingMock(
-      {required BookingService newBooking,
-      required BuildContext context}) async {
-    await Future.delayed(const Duration(seconds: 1));
-    // Simula la carga de una nueva reserva
-    converted.add(DateTimeRange(
-        start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    print('${newBooking.toJson()} ha sido cargada');
-
-    // Vuelve a la pantalla de inicio
-    GoRouter.of(context).go('/home');
-  }
-
-  List<DateTimeRange> converted = [];
-
-  List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    // Genera los rangos de tiempo para las horas de 1 a 10
-    for (int i = 0; i <= 10; i++) {
-      DateTime start = DateTime(now.year, now.month, now.day, i);
-      DateTime end = DateTime(now.year, now.month, now.day, i + 1);
-      converted.add(DateTimeRange(start: start, end: end));
-    }
-
-    return converted;
-  }
-
-  List<DateTimeRange> generatePauseSlots() {
-    return [
-      DateTimeRange(
-          start: DateTime(now.year, now.month, now.day, 1),
-          end: DateTime(now.year, now.month, now.day, 1))
-    ];
-  }
-
-// Función para formatear la hora
-  String formatHour(DateTime dateTime) {
-    int hour = dateTime.hour;
-    // Ajusta la hora si es mayor que 10
-    if (hour > 10) {
-      hour = hour % 10;
-    }
-    return 'p${hour.toString()}';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(
-            80), // Ajusta la altura del AppBar según sea necesario
-        child: Padding(
-          padding: const EdgeInsets.only(
-              top: 30), // Ajusta el espacio en la parte superior del AppBar
-          child: AppBar(
-            title: const Text('Reserva tu lugar'),
-            centerTitle: true,
-            titleSpacing:
-                10, // Ajusta el espacio entre el título y los bordes del AppBar
-          ),
-        ),
-      ),
-      body: BookingCalendar(
-          bookingService: mockBookingService,
-          convertStreamResultToDateTimeRanges: convertStreamResultMock,
-          getBookingStream: getBookingStreamMock,
-          uploadBooking: ({required BookingService newBooking}) =>
-              uploadBookingMock(newBooking: newBooking, context: context),
-          pauseSlots: generatePauseSlots(),
-          pauseSlotText: 'Deshabilitado',
-          hideBreakTime: false,
-          loadingWidget: const Text('Obteniendo datos...'),
-          uploadingWidget: const CircularProgressIndicator(),
-          locale: 'es_ES',
-          startingDayOfWeek: StartingDayOfWeek.tuesday,
-          wholeDayIsBookedWidget:
-              const Text('Lo sentimos, todo está reservado para este día'),
-          bookingButtonText: 'Reservar',
-          // Usa la función formatHour para formatear la hora
-          formatDateTime: formatHour),
-    );
-  }
-}*/

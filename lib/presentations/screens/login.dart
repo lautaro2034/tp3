@@ -4,7 +4,6 @@ import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,13 +11,14 @@ import 'package:go_router/go_router.dart';
 class Login extends ConsumerWidget {
   static const String name = 'Login';
 
-  const Login({Key? key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String _email = '';
     String _clave = '';
     final db = FirebaseFirestore.instance;
+    final ValueNotifier<bool> _showPassword = ValueNotifier<bool>(false);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -47,11 +47,28 @@ class Login extends ConsumerWidget {
             ),
 
             // PASS
-            TextField(
-              style: const TextStyle(color: Colors.white),
-              decoration: const InputDecoration(labelText: 'PASSWORD'),
-              onChanged: (value) {
-                _clave = value;
+            ValueListenableBuilder<bool>(
+              valueListenable: _showPassword,
+              builder: (context, value, child) {
+                return TextField(
+                  style: const TextStyle(color: Colors.white),
+                  obscureText: !value,
+                  decoration: InputDecoration(
+                    labelText: 'PASSWORD',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        value ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _showPassword.value = !value;
+                      },
+                    ),
+                  ),
+                  onChanged: (value) {
+                    _clave = value;
+                  },
+                );
               },
             ),
 
@@ -79,69 +96,69 @@ class Login extends ConsumerWidget {
                     Color(0xFF42A5F5),
                   ])),
               child: TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.all(16.0),
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () async {
-                    try {
-                      // Realizar la consulta a Firestore para obtener el usuario con el correo electrónico especificado
-                      QuerySnapshot querySnapshot = await FirebaseFirestore
-                          .instance
-                          .collection("users")
-                          .where("email", isEqualTo: _email)
-                          .get();
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.all(16.0),
+                  textStyle: const TextStyle(fontSize: 20),
+                ),
+                onPressed: () async {
+                  try {
+                    // Realizar la consulta a Firestore para obtener el usuario con el correo electrónico especificado
+                    QuerySnapshot querySnapshot = await db
+                        .collection("users")
+                        .where("email", isEqualTo: _email)
+                        .get();
 
-                      if (querySnapshot.docs.isNotEmpty) {
-                        // Obtener el primer documento que cumple con la consulta
-                        QueryDocumentSnapshot userDocument =
-                            querySnapshot.docs.first;
+                    if (querySnapshot.docs.isNotEmpty) {
+                      // Obtener el primer documento que cumple con la consulta
+                      QueryDocumentSnapshot userDocument =
+                          querySnapshot.docs.first;
 
-                        // Obtener los datos del usuario
-                        Map<String, dynamic>? userData =
-                            userDocument.data() as Map<String, dynamic>?;
+                      // Obtener los datos del usuario
+                      Map<String, dynamic>? userData =
+                          userDocument.data() as Map<String, dynamic>?;
 
-                        if (userData != null) {
-                          String? userEmail = userData['email'] as String?;
-                          String? userPassword =
-                              userData['contrasenia'] as String?;
+                      if (userData != null) {
+                        String? userEmail = userData['email'] as String?;
+                        String? userPassword =
+                            userData['contrasenia'] as String?;
 
-                          if (userEmail != null && userPassword != null) {
-                            // Verificar si el correo electrónico ingresado coincide con el almacenado
-                            if (userEmail == _email) {
-                              // Verificar si la contraseña ingresada coincide con la almacenada
-                              if (userPassword == _clave) {
-                                ref.read(usuarioProvider.notifier).setUsuario(
-                                    userData['id'],
-                                    userData['nombre'],
-                                    userData['apellido'],
-                                    userData['email'],
-                                    userData['contrasenia']);
-                                // Usuario autenticado con éxito
-                                context.goNamed(Home.name);
-                              } else {
-                                print('Contraseña incorrecta.');
-                              }
+                        if (userEmail != null && userPassword != null) {
+                          // Verificar si el correo electrónico ingresado coincide con el almacenado
+                          if (userEmail == _email) {
+                            // Verificar si la contraseña ingresada coincide con la almacenada
+                            if (userPassword == _clave) {
+                              ref.read(usuarioProvider.notifier).setUsuario(
+                                  userData['id'],
+                                  userData['nombre'],
+                                  userData['apellido'],
+                                  userData['email'],
+                                  userData['contrasenia']);
+                              // Usuario autenticado con éxito
+                              context.goNamed(Home.name);
                             } else {
-                              print(
-                                  'El correo electrónico ingresado no coincide con ningún usuario.');
+                              print('Contraseña incorrecta.');
                             }
                           } else {
-                            print('Los datos del usuario están incompletos.');
+                            print(
+                                'El correo electrónico ingresado no coincide con ningún usuario.');
                           }
                         } else {
-                          print('No se encontraron datos del usuario.');
+                          print('Los datos del usuario están incompletos.');
                         }
                       } else {
-                        print('Usuario no encontrado.');
+                        print('No se encontraron datos del usuario.');
                       }
-                    } catch (e) {
-                      print('Error: $e');
-                      // Manejar el error
+                    } else {
+                      print('Usuario no encontrado.');
                     }
-                  },
-                  child: const Text('Login')),
+                  } catch (e) {
+                    print('Error: $e');
+                    // Manejar el error
+                  }
+                },
+                child: const Text('Login'),
+              ),
             ),
 
             const SizedBox(
@@ -158,15 +175,16 @@ class Login extends ConsumerWidget {
                     Color(0xFF42A5F5),
                   ])),
               child: TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.all(16.0),
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    context.goNamed(RegisterScreen.nombre);
-                  },
-                  child: const Text('Registrate')),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.all(16.0),
+                  textStyle: const TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  context.goNamed(RegisterScreen.nombre);
+                },
+                child: const Text('Registrate'),
+              ),
             ),
           ],
         ),
