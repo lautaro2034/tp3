@@ -3,6 +3,7 @@ import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/widgets/lote.dart'; // Importa el archivo 'lote.dart'
 
 class BookingCalendarDemoApp extends StatefulWidget {
   static const String name = 'calendarioReserva';
@@ -12,20 +13,12 @@ class BookingCalendarDemoApp extends StatefulWidget {
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
 }
 
-class ButtonData {
-  final int id;
-  bool isReserved;
-  bool isConfirmed;
-
-  ButtonData(this.id, this.isReserved, {this.isConfirmed = false});
-}
-
 class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
-  DateTime? selectedDate;
-  List<ButtonData> buttonDataList =
-      List<ButtonData>.generate(11, (index) => ButtonData(index, false));
+  DateTime? fechaSeleccionada;
+  List<LoteData> listaLotes =
+      List<LoteData>.generate(11, (index) => LoteData(index, false));
   List<Reserva> reservasDelDia = [];
-  int? _selectedButtonIndex;
+  int? _indiceBotonSeleccionado;
 
   final algunasReservas = [
     Reserva(fecha: 7, lote: 1),
@@ -34,37 +27,37 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     Reserva(fecha: 10, lote: 4),
   ];
 
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void _onDaySelected(DateTime diaSeleccionado, DateTime diaEnfocado) {
     setState(() {
-      selectedDate = selectedDay;
-      // Reset the reservations for the new date
-      buttonDataList =
-          List<ButtonData>.generate(11, (index) => ButtonData(index, false));
-      _selectedButtonIndex = null;
-      _filtrarReservasPorFecha(selectedDay.day);
+      fechaSeleccionada = diaSeleccionado;
+      // Reiniciar las reservas para la nueva fecha
+      listaLotes =
+          List<LoteData>.generate(11, (index) => LoteData(index, false));
+      _indiceBotonSeleccionado = null;
+      _filtrarReservasPorFecha(diaSeleccionado.day);
     });
   }
 
-  void _reservePosition(int index) {
+  void _reservarPosicion(int indice) {
     setState(() {
-      // Prevent modifying already confirmed reservations
-      if (buttonDataList[index].isConfirmed) return;
+      // Prevenir modificar reservas ya confirmadas
+      if (listaLotes[indice].estaConfirmado) return;
 
-      // Deselect any previously selected button
-      for (var button in buttonDataList) {
-        if (!button.isConfirmed) {
-          button.isReserved = false;
+      // Deseleccionar cualquier botón previamente seleccionado
+      for (var lote in listaLotes) {
+        if (!lote.estaConfirmado) {
+          lote.estaReservado = false;
         }
       }
 
-      // Reserve the newly selected button
-      buttonDataList[index].isReserved = true;
-      _selectedButtonIndex = index;
+      // Reservar el botón recién seleccionado
+      listaLotes[indice].estaReservado = true;
+      _indiceBotonSeleccionado = indice;
     });
   }
 
-  bool _hasReservation() {
-    return buttonDataList.any((button) => button.isReserved);
+  bool _tieneReserva() {
+    return listaLotes.any((lote) => lote.estaReservado);
   }
 
   void _filtrarReservasPorFecha(int dia) {
@@ -72,21 +65,21 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
       reservasDelDia =
           algunasReservas.where((reserva) => reserva.fecha == dia).toList();
       for (var reserva in reservasDelDia) {
-        if (reserva.lote < buttonDataList.length) {
-          buttonDataList[reserva.lote].isReserved = true;
-          buttonDataList[reserva.lote].isConfirmed = true;
+        if (reserva.lote < listaLotes.length) {
+          listaLotes[reserva.lote].estaReservado = true;
+          listaLotes[reserva.lote].estaConfirmado = true;
         }
       }
     });
   }
 
-  void _confirmReservation() {
-    if (selectedDate != null && _selectedButtonIndex != null) {
+  void _confirmarReserva() {
+    if (fechaSeleccionada != null && _indiceBotonSeleccionado != null) {
       setState(() {
-        buttonDataList[_selectedButtonIndex!].isConfirmed = true;
+        listaLotes[_indiceBotonSeleccionado!].estaConfirmado = true;
       });
-      Reserva reserva =
-          Reserva(fecha: selectedDate!.day, lote: _selectedButtonIndex!);
+      Reserva reserva = Reserva(
+          fecha: fechaSeleccionada!.day, lote: _indiceBotonSeleccionado!);
       print(reserva.getData());
       context.goNamed(Home.name);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -110,9 +103,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
             TableCalendar(
               firstDay: DateTime(2000),
               lastDay: DateTime(2101),
-              focusedDay: selectedDate ?? DateTime.now(),
+              focusedDay: fechaSeleccionada ?? DateTime.now(),
               selectedDayPredicate: (day) {
-                return isSameDay(selectedDate, day);
+                return isSameDay(fechaSeleccionada, day);
               },
               onDaySelected: _onDaySelected,
               headerStyle: const HeaderStyle(
@@ -120,10 +113,11 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                 titleCentered: true,
               ),
             ),
-            if (selectedDate != null) ...[
+            if (fechaSeleccionada != null) ...[
               const SizedBox(height: 10),
               Text(
-                "Fecha seleccionada: ${selectedDate!.toLocal()}".split(' ')[0],
+                "Fecha seleccionada: ${fechaSeleccionada!.toLocal()}"
+                    .split(' ')[0],
                 style: const TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 20),
@@ -133,42 +127,13 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 2, // Make buttons rectangular
+                    childAspectRatio: 2, // Hacer botones rectangulares
                   ),
-                  itemCount: buttonDataList.length,
+                  itemCount: listaLotes.length,
                   itemBuilder: (context, index) {
-                    Color buttonColor;
-                    if (buttonDataList[index].isConfirmed) {
-                      buttonColor = Colors.red;
-                    } else if (buttonDataList[index].isReserved) {
-                      buttonColor = Colors.yellow;
-                    } else {
-                      buttonColor = Colors.blue;
-                    }
-
-                    return GestureDetector(
-                      onTap: buttonDataList[index].isConfirmed
-                          ? null
-                          : () => _reservePosition(index),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: buttonColor,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4,
-                              offset: Offset(2, 2),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "p${buttonDataList[index].id}",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
+                    return Lote(
+                      loteData: listaLotes[index],
+                      onTap: () => _reservarPosicion(index),
                     );
                   },
                 ),
@@ -177,9 +142,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ],
         ),
       ),
-      floatingActionButton: (selectedDate != null && _hasReservation())
+      floatingActionButton: (fechaSeleccionada != null && _tieneReserva())
           ? FloatingActionButton(
-              onPressed: _confirmReservation,
+              onPressed: _confirmarReserva,
               tooltip: 'Reservar',
               child: const Icon(Icons.check),
             )

@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
 
     const ConfirmReservationPage(),
     // Calendario de las reservas
-    const Calendar_demo(),
+    // const Calendar_demo(),
     //const AdminReservationCalendar(),
 
     // Screen de retiro de auto

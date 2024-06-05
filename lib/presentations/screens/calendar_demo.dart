@@ -1,4 +1,4 @@
-import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
+/*import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/lote.dart';
 import 'package:flutter/material.dart';
 import 'package:app_de_estacionamiento/utils.dart';
@@ -99,4 +99,4 @@ final algunasReservas = [
       ],
     );
   }
-}
+}*/
