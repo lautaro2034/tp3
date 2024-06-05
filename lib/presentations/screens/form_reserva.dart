@@ -143,7 +143,8 @@ class _ConfirmReservationPageState
                                       idDuenio: usuarioState.id,
                                     );
 
-                                    final nuevoUsuarioVehiculo = usuarioVehiculo(
+                                    final nuevoUsuarioVehiculo =
+                                        usuarioVehiculo(
                                       idUsuario: usuarioState.id,
                                       idVehiculo: idDocVehiculo,
                                     );
@@ -155,9 +156,11 @@ class _ConfirmReservationPageState
 
                                     await db
                                         .collection('UsuariosVehiculos')
-                                        .add(nuevoUsuarioVehiculo.toFirestore());
+                                        .add(
+                                            nuevoUsuarioVehiculo.toFirestore());
 
-                                    context.goNamed(BookingCalendarDemoApp.name);
+                                    context
+                                        .goNamed(BookingCalendarDemoApp.name);
                                   }
                                 }
                               : null,
