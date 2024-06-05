@@ -1,5 +1,6 @@
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/mis_reservas.dart';
+import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -54,6 +55,9 @@ class DrawerMenuLateral extends StatelessWidget {
                     'Buscar Auto',
                     style: TextStyle(color: Colors.white),
                   ),
+                  /* onTap: () {
+                    context.goNamed(BuscadorAuto.name);
+                  },*/
                 ),
               ),
 
@@ -79,7 +83,7 @@ class DrawerMenuLateral extends StatelessWidget {
                     onPressed: () {
                       context.goNamed(MisReservas.name);
                     },
-                    color: Colors.white, 
+                    color: Colors.white,
                     icon: const Icon(Icons.list_alt_rounded),
                   ),
                   title: const Text(

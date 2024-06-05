@@ -27,32 +27,44 @@ class _RetirarAutoState extends State<RetirarAuto> {
   @override
   Widget build(BuildContext context) {
     final db = FirebaseFirestore.instance;
-    TextEditingController _marcaController = TextEditingController();
-    TextEditingController _modeloController = TextEditingController();
+
     TextEditingController _patenteController = TextEditingController();
-    
+
+    Future<void> retirarAuto(String patenteBuscado) async {
+      QuerySnapshot querySnap = await db
+          .collection('Vehiculos')
+          .where('patente', isEqualTo: patenteBuscado)
+          .limit(1)
+          .get();
+
+      if (querySnap.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = querySnap.docs.first;
+
+        QuerySnapshot querySnap2 = await FirebaseFirestore.instance
+            .collection('UsuariosVehiculos')
+            .where('idVehiculo', isEqualTo: userDoc.id)
+            .limit(1)
+            .get();
+
+        DocumentSnapshot userVehiculoDoc2 = querySnap2.docs.first;
+        userDoc.reference.delete();
+        userVehiculoDoc2.reference.delete();
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('retirar auto'),
+        title: const Text('Retirar auto'),
       ),
       body: Form(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            // Input Modelo
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Modelo',
-                border: OutlineInputBorder(),
-              ),
-            ),
-
-            const SizedBox(height: 55),
-
             // Input Patente
             TextFormField(
+              controller: _patenteController,
               decoration: const InputDecoration(
                 labelText: 'Patente',
                 border: OutlineInputBorder(),
@@ -61,21 +73,13 @@ class _RetirarAutoState extends State<RetirarAuto> {
 
             const SizedBox(height: 50),
 
-            // Input Marca
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Marca',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 80),
-
             // Boton retirar
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    showBox();
+                  onPressed: () async {
+                    await retirarAuto(_patenteController.text);
+                    //showBox();
                   },
                   child: const Text(
                     'retirar',
