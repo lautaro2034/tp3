@@ -1,7 +1,8 @@
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
-import 'package:app_de_estacionamiento/Core/Entities/vehiculo.dart';
+import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
+import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -143,13 +144,17 @@ class _ConfirmReservationPageState
                                       idDuenio: usuarioState.id,
                                     );
 
-                                    final nuevoUsuarioVehiculo =
+                                    ref
+                                        .read(vehiculoProvider.notifier)
+                                        .setVehiculo(nuevoVehiculo);
+
+                                    /*final nuevoUsuarioVehiculo =
                                         usuarioVehiculo(
                                       idUsuario: usuarioState.id,
                                       idVehiculo: idDocVehiculo,
-                                    );
+                                    );*/
 
-                                    await db
+                                    /*await db
                                         .collection('Vehiculos')
                                         .doc(idDocVehiculo)
                                         .set(nuevoVehiculo.toFireStore());
@@ -157,7 +162,7 @@ class _ConfirmReservationPageState
                                     await db
                                         .collection('UsuariosVehiculos')
                                         .add(
-                                            nuevoUsuarioVehiculo.toFirestore());
+                                            nuevoUsuarioVehiculo.toFirestore());*/
 
                                     context
                                         .goNamed(BookingCalendarDemoApp.name);

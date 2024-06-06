@@ -1,19 +1,31 @@
 import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
+import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
+import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/lote.dart'; // Importa el archivo 'lote.dart'
 
-class BookingCalendarDemoApp extends StatefulWidget {
+class BookingCalendarDemoApp extends ConsumerStatefulWidget {
   static const String name = 'calendarioReserva';
-  const BookingCalendarDemoApp({super.key});
+  const BookingCalendarDemoApp({Key? key}) : super(key: key);
 
   @override
-  State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
+  _BookingCalendarDemoAppState createState() => _BookingCalendarDemoAppState();
 }
 
-class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
+class _BookingCalendarDemoAppState
+    extends ConsumerState<BookingCalendarDemoApp> {
+  final elNuevoVehiculo = Vehiculo(
+      patente: 'fgh123',
+      marca: 'Ferrari',
+      modelo: 'modelo',
+      idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2");
+
   DateTime? fechaSeleccionada;
   List<LoteData> listaLotes =
       List<LoteData>.generate(11, (index) => LoteData(index, false));
@@ -21,10 +33,17 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   int? _indiceBotonSeleccionado;
 
   final algunasReservas = [
-    Reserva(fecha: 7, lote: 1),
-    Reserva(fecha: 15, lote: 2),
-    Reserva(fecha: 6, lote: 3),
-    Reserva(fecha: 10, lote: 4),
+    Reserva(
+        fecha: DateTime.now().day,
+        lote: 1,
+        elvehiculo: Vehiculo(
+            patente: 'fgh123',
+            marca: 'Ferrari',
+            modelo: 'modelo',
+            idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2")),
+    //Reserva(fecha: 15, lote: 2),
+    //Reserva(fecha: 6, lote: 3),
+    //Reserva(fecha: 10, lote: 4),
   ];
 
   void _onDaySelected(DateTime diaSeleccionado, DateTime diaEnfocado) {
@@ -79,7 +98,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
         listaLotes[_indiceBotonSeleccionado!].estaConfirmado = true;
       });
       Reserva reserva = Reserva(
-          fecha: fechaSeleccionada!.day, lote: _indiceBotonSeleccionado!);
+          fecha: fechaSeleccionada!.day,
+          lote: _indiceBotonSeleccionado!,
+          elvehiculo: elNuevoVehiculo);
       print(reserva.getData());
       context.goNamed(Home.name);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -131,10 +152,24 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                   ),
                   itemCount: listaLotes.length,
                   itemBuilder: (context, index) {
+                    final elLote = Lote(loteData: listaLotes[index]);
+                    final elvehiculo = ref.read(vehiculoProvider);
+
+                    final laReserva = Reserva(
+                        fecha: fechaSeleccionada!.day,
+                        lote: elLote.loteData.id,
+                        elvehiculo: elvehiculo);
+
+                    FirebaseFirestore.instance
+                        .collection('Reservas')
+                        .add(laReserva.toFirestore());
+
                     return Lote(
                         loteData: listaLotes[index],
                         onTap: () {
-                          print(fechaSeleccionada);
+                          print(laReserva);
+                          print(fechaSeleccionada.toString());
+                          print(elLote.loteData.id);
                           _reservarPosicion(index);
                         });
                   },
