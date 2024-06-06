@@ -113,7 +113,8 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                 titleCentered: true,
               ),
             ),
-            if (fechaSeleccionada != null) ...[ // Si 'fechaSeleccionada' no es nulo, insertar widgets en la lista de hijos
+            if (fechaSeleccionada != null) ...[
+              // Si 'fechaSeleccionada' no es nulo, insertar widgets en la lista de hijos
               const SizedBox(height: 10),
               Text(
                 "Fecha seleccionada: ${fechaSeleccionada!.toLocal()}"
