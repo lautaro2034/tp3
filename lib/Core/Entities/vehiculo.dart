@@ -33,4 +33,19 @@ class Vehiculo {
         patente: data?['patente'],
         idDuenio: data?['patente']);
   }
+
+  Vehiculo copywith(
+      {String? modelo, String? marca, String? patente, String? idDuenio}) {
+    return Vehiculo(
+        modelo: modelo ?? this.modelo,
+        marca: marca ?? this.marca,
+        patente: patente ?? this.patente,
+        idDuenio: idDuenio ?? this.idDuenio);
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return this.marca.toString();
+  }
 }

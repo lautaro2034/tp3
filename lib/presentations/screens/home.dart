@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
     //registro de reserva
 
     const ConfirmReservationPage(),
+    //ConfirmReservationPage(),
     // Calendario de las reservas
     // const Calendar_demo(),
     //const AdminReservationCalendar(),
@@ -44,7 +45,8 @@ class _HomeState extends State<Home> {
     const BuscadorAuto(),
     const RetirarAuto(),
   ];
-
+//admin@admin.com
+//admin2024
   @override
   Widget build(BuildContext context) {
     return Scaffold(
