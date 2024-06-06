@@ -76,14 +76,14 @@ class _BuscadorAutoState extends State<BuscadorAuto> {
 
     // Busca el vehículo por patente
     QuerySnapshot querySnap = await db
-        .collection('Vehiculos')
+        .collection('Reservas')
         .where('patente', isEqualTo: patenteBuscado)
         .limit(1)
         .get();
 
     if (querySnap.docs.isNotEmpty) {
       DocumentSnapshot vehiculoDoc = querySnap.docs.first;
-      String puesto = vehiculoDoc['puesto'];
+      String puesto = vehiculoDoc['lote'];
 
       // Muestra un mensaje indicando el puesto del auto
       showBox('Su auto está en el puesto $puesto');

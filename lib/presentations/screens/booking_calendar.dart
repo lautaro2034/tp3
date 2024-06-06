@@ -132,9 +132,11 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
                   itemCount: listaLotes.length,
                   itemBuilder: (context, index) {
                     return Lote(
-                      loteData: listaLotes[index],
-                      onTap: () => _reservarPosicion(index),
-                    );
+                        loteData: listaLotes[index],
+                        onTap: () {
+                          print(fechaSeleccionada);
+                          _reservarPosicion(index);
+                        });
                   },
                 ),
               ),

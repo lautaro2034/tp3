@@ -72,11 +72,15 @@ class _RetirarAutoState extends State<RetirarAuto> {
         .limit(1)
         .get();
 
-    if (querySnap.docs.isNotEmpty) {
+    if (querySnap.docs.isEmpty) {
+      // Muestra un mensaje indicando que no se encontró el vehículo
+      showBox('No se encontró ningún auto con esa patente');
+    } else {
       DocumentSnapshot vehiculoDoc = querySnap.docs.first;
-      String puesto = vehiculoDoc[
-          'puesto']; // busca el puesto en la base de datos 
-          
+      //String puesto = vehiculoDoc['lote']; // busca el puesto en la base de datos
+      String patente =
+          vehiculoDoc['patente']; // busca el puesto en la base de datos
+
       // Busca la relación del usuario con el vehículo
       QuerySnapshot querySnap2 = await db
           .collection('UsuariosVehiculos')
@@ -91,10 +95,8 @@ class _RetirarAutoState extends State<RetirarAuto> {
       await userVehiculoDoc2.reference.delete();
 
       // Muestra un mensaje indicando que el puesto fue liberado
-      showBox('Se va a liberar el puesto $puesto');
-    } else {
-      // Muestra un mensaje indicando que no se encontró el vehículo
-      showBox('No se encontró ningún auto con esa patente');
+      //showBox('Se va a liberar el puesto $puesto');
+      showBox('Se ha retirado el vehiculo con patente $patente');
     }
   }
 
