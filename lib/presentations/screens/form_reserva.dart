@@ -4,6 +4,7 @@ import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/calendar_demo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -164,8 +165,7 @@ class _ConfirmReservationPageState
                                         .add(
                                             nuevoUsuarioVehiculo.toFirestore());*/
 
-                                    context
-                                        .goNamed(BookingCalendarDemoApp.name);
+                                    context.goNamed(Calendar_demo.name);
                                   }
                                 }
                               : null,

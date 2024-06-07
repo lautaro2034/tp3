@@ -1,24 +1,29 @@
-/*import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
+import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
+import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/lote.dart';
 import 'package:flutter/material.dart';
 import 'package:app_de_estacionamiento/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Calendar_demo extends StatefulWidget {
+class Calendar_demo extends ConsumerStatefulWidget {
+  static final String name = 'CalendarDemo';
+
   const Calendar_demo({super.key});
 
   @override
-  State<Calendar_demo> createState() => _Calendar_demoState();
+  _Calendar_demoState createState() => _Calendar_demoState();
 }
 
-class _Calendar_demoState extends State<Calendar_demo> {
-
-final algunasReservas = [
-
-    Reserva(fecha: 7, lote: 1),
-    Reserva(fecha: 15, lote: 2),
-    Reserva(fecha: 6, lote: 3),
-    Reserva(fecha: 10, lote: 4),
-    
+class _Calendar_demoState extends ConsumerState<Calendar_demo> {
+  final algunasReservas = [
+    Reserva(
+        fecha: 7,
+        lote: 1,
+        elvehiculo: Vehiculo(
+            patente: 'fgh123',
+            marca: 'Ferrari',
+            modelo: 'modelo',
+            idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2")),
   ];
 
   List<Reserva> reservasDelDia = [];
@@ -31,33 +36,30 @@ final algunasReservas = [
     });
   }
 
-  void _filtrarReservasPorFecha(int dia){
+  void _filtrarReservasPorFecha(int dia) {
     setState(() {
-      reservasDelDia = algunasReservas.where((reserva) => reserva.fecha == dia).toList();
+      reservasDelDia =
+          algunasReservas.where((reserva) => reserva.fecha == dia).toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Column(
       children: [
         CalendarDatePicker(
-          initialDate: DateTime.now(), 
-          firstDate: DateTime(kToday.year, kToday.month - 3, kToday.day), 
-          lastDate: DateTime(kToday.year, kToday.month + 3, kToday.day), 
+          initialDate: DateTime.now(),
+          firstDate: DateTime(kToday.year, kToday.month - 3, kToday.day),
+          lastDate: DateTime(kToday.year, kToday.month + 3, kToday.day),
           //currentDate: DateTime(2024, 06, 09),
-          onDateChanged: (DateTime value) { 
+          onDateChanged: (DateTime value) {
             setState(() {
               fechaSeleccionada = value.day;
               _selectedButtonIndex = null;
             });
             _filtrarReservasPorFecha(fechaSeleccionada!);
-           },
+          },
         ),
-
 
         Expanded(
           child: SingleChildScrollView(
@@ -74,29 +76,66 @@ final algunasReservas = [
                 }
 
                 return SizedBox(
-                  height: 80,
+                    height: 80,
+                    child: Lote(
+                        loteData: LoteData(id: nroLote, estaReservado: false)
 
-                  child: LoteButton(
-                    identificador: 'P$nroLote', 
-                    isSelected: _selectedButtonIndex == nroLote || isSelected,
-                    onPressed: () => _onButtonPressed(nroLote)
-                    ));
+                        /* identificador: 'P$nroLote',
+                        isSelected:
+                            _selectedButtonIndex == nroLote || isSelected,
+                        onPressed: () => _onButtonPressed(nroLote))); */
+                        ));
               }),
             ),
           ),
         ),
 
-        ElevatedButton(onPressed: () {
-          if ( fechaSeleccionada != null && _selectedButtonIndex != null ){
-            Reserva reserva = Reserva(fecha: fechaSeleccionada!, lote: _selectedButtonIndex!);
-            print(reserva.getData());
-          } else {
-            print('Seleccione una fecha y un lote');
-          }
-        }, 
-        child: const Text('Reservar'))
-        
+        // Estilo
+        /*Expanded(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 2, // Hacer botones rectangulares
+            ),
+            itemCount: listaLotes.length,
+            itemBuilder: (context, index) {
+              final elLote = Lote(loteData: listaLotes[index]);
+              final elvehiculo = ref.read(vehiculoProvider);
+
+              final laReserva = Reserva(
+                  fecha: fechaSeleccionada!.day,
+                  lote: elLote.loteData.id,
+                  elvehiculo: elvehiculo);
+
+              return Lote(
+                  loteData: listaLotes[index],
+                  onTap: () {
+                    print(laReserva);
+                    print(fechaSeleccionada.toString());
+                    print(elLote.loteData.id);
+                    _reservarPosicion(index);
+
+                    FirebaseFirestore.instance
+                        .collection('Reservas')
+                        .add(laReserva.toFirestore());
+                  });
+            },
+          ),
+        ),*/
+
+        ElevatedButton(
+            onPressed: () {
+              if (fechaSeleccionada != null && _selectedButtonIndex != null) {
+                Reserva reserva = algunasReservas[0];
+                print(reserva.getData());
+              } else {
+                print('Seleccione una fecha y un lote');
+              }
+            },
+            child: const Text('Reservar'))
       ],
     );
   }
-}*/
+}

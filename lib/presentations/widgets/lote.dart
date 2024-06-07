@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LoteData {
-  final int id;
+  int id;
   bool estaReservado;
   bool estaConfirmado;
 
-  LoteData(this.id, this.estaReservado, {this.estaConfirmado = false});
+  LoteData(
+      {required this.id,
+      required this.estaReservado,
+      this.estaConfirmado = false});
 }
 
 class Lote extends StatelessWidget {

@@ -37,4 +37,12 @@ class Reserva {
       }
     };
   }
+
+  factory Reserva.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return Reserva(
+        fecha: snapshot.data()?['fecha'],
+        lote: snapshot.data()?['lote'],
+        elvehiculo: snapshot.data()?['vehiculo']);
+  }
 }

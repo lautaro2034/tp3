@@ -1,4 +1,5 @@
 import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
+import 'package:app_de_estacionamiento/presentations/screens/calendar_demo.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/pantalla_principal.dart';
@@ -28,8 +29,8 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/calendarioReserva',
-      builder: (context, state) => const BookingCalendarDemoApp(),
-      name: BookingCalendarDemoApp.name,
+      builder: (context, state) => const Calendar_demo(),
+      name: Calendar_demo.name,
     ),
     GoRoute(
       path: '/pantallaPrincipal',

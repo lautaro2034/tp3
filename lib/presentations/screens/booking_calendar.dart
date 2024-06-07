@@ -1,3 +1,5 @@
+/*import 'dart:async';
+
 import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
 import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
@@ -20,6 +22,17 @@ class BookingCalendarDemoApp extends ConsumerStatefulWidget {
 
 class _BookingCalendarDemoAppState
     extends ConsumerState<BookingCalendarDemoApp> {
+  //Future<void> instanciarArray() async {}
+
+  final lasReservas = [];
+
+  /*.then(snapshot) {
+      for (var doc in snapshot.doc){
+        /// data
+      }
+    };
+*/
+
   final elNuevoVehiculo = Vehiculo(
       patente: 'fgh123',
       marca: 'Ferrari',
@@ -29,7 +42,7 @@ class _BookingCalendarDemoAppState
   DateTime? fechaSeleccionada;
   List<LoteData> listaLotes =
       List<LoteData>.generate(11, (index) => LoteData(index, false));
-  List<Reserva> reservasDelDia = [];
+  //Future<QuerySnapshot<Map<String, dynamic>>> reservasDelDia = null!;
   int? _indiceBotonSeleccionado;
 
   final algunasReservas = [
@@ -50,8 +63,9 @@ class _BookingCalendarDemoAppState
     setState(() {
       fechaSeleccionada = diaSeleccionado;
       // Reiniciar las reservas para la nueva fecha
-      listaLotes =
-          List<LoteData>.generate(11, (index) => LoteData(index, false));
+      listaLotes = List.generate(11, (index) {
+        
+      });
       _indiceBotonSeleccionado = null;
       _filtrarReservasPorFecha(diaSeleccionado.day);
     });
@@ -79,16 +93,32 @@ class _BookingCalendarDemoAppState
     return listaLotes.any((lote) => lote.estaReservado);
   }
 
-  void _filtrarReservasPorFecha(int dia) {
+  bool prueba(int diaReserva, int dia) => diaReserva == dia;
+
+  var listaReservas = [];
+
+  Future<void> _filtrarReservasPorFecha(int dia) async {
     setState(() {
-      reservasDelDia =
-          algunasReservas.where((reserva) => reserva.fecha == dia).toList();
-      for (var reserva in reservasDelDia) {
-        if (reserva.lote < listaLotes.length) {
-          listaLotes[reserva.lote].estaReservado = true;
-          listaLotes[reserva.lote].estaConfirmado = true;
+      FirebaseFirestore.instance.collection("cities").get().then(
+        (querySnapshot) {
+          for (var docSnapshot in querySnapshot.docs) {
+            listaReservas.add(docSnapshot);
+            print('${{docSnapshot.id}} => ${{docSnapshot.data()}}');
+          }
+        },
+        onError: (e) => print("Error completing: $e"),
+      );
+
+      /*   FirebaseFirestore.instance.collection('Reservas').where((reserva) => reserva.fecha == dia).get()
+         .then(snapshot){
+          for (var reserva in reservasDelDia) {
+           if (reserva.lote < listaLotes.length) {
+             listaLotes[reserva.lote].estaReservado = true;
+              listaLotes[reserva.lote].estaConfirmado = true;
         }
-      }
+         }
+      
+      };  */
     });
   }
 
@@ -134,7 +164,8 @@ class _BookingCalendarDemoAppState
                 titleCentered: true,
               ),
             ),
-            if (fechaSeleccionada != null) ...[ // Si 'fechaSeleccionada' no es nulo, insertar widgets en la lista de hijos
+            if (fechaSeleccionada != null) ...[
+              // Si 'fechaSeleccionada' no es nulo, insertar widgets en la lista de hijos
               const SizedBox(height: 10),
               Text(
                 "Fecha seleccionada: ${fechaSeleccionada!.toLocal()}"
@@ -160,10 +191,6 @@ class _BookingCalendarDemoAppState
                         lote: elLote.loteData.id,
                         elvehiculo: elvehiculo);
 
-                    FirebaseFirestore.instance
-                        .collection('Reservas')
-                        .add(laReserva.toFirestore());
-
                     return Lote(
                         loteData: listaLotes[index],
                         onTap: () {
@@ -171,6 +198,10 @@ class _BookingCalendarDemoAppState
                           print(fechaSeleccionada.toString());
                           print(elLote.loteData.id);
                           _reservarPosicion(index);
+
+                          FirebaseFirestore.instance
+                              .collection('Reservas')
+                              .add(laReserva.toFirestore());
                         });
                   },
                 ),
@@ -188,4 +219,4 @@ class _BookingCalendarDemoAppState
           : null,
     );
   }
-}
+}*/
