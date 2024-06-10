@@ -107,6 +107,14 @@ class _ConfirmReservationPageState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
+                          controller: _marcaController,
+                          decoration: const InputDecoration(
+                            labelText: 'Marca',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 50),
+                        TextFormField(
                           controller: _modeloController,
                           decoration: const InputDecoration(
                             labelText: 'Modelo',
@@ -123,14 +131,6 @@ class _ConfirmReservationPageState
                           ),
                         ),
                         const SizedBox(height: 50),
-                        TextFormField(
-                          controller: _marcaController,
-                          decoration: const InputDecoration(
-                            labelText: 'Marca',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        const SizedBox(height: 50),
                         ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () async {
@@ -138,34 +138,34 @@ class _ConfirmReservationPageState
                                     String idDocVehiculo =
                                         db.collection('vehiculos').doc().id;
 
-                                    final nuevoVehiculo = Vehiculo(
-                                      patente: _patenteController.text,
-                                      marca: _marcaController.text,
-                                      modelo: _modeloController.text,
-                                      idDuenio: usuarioState.id,
-                                    );
+                                    try {
+                                      /*final nuevoUsuarioVehiculo =
+                                          usuarioVehiculo(
+                                        idUsuario: usuarioState.id,
+                                        idVehiculo: idDocVehiculo,
+                                      );*/
 
-                                    ref
-                                        .read(vehiculoProvider.notifier)
-                                        .setVehiculo(nuevoVehiculo);
+                                      /*await db
+                                          .collection('Vehiculos')
+                                          .doc(idDocVehiculo)
+                                          .set(nuevoVehiculo.toFireStore());
 
-                                    /*final nuevoUsuarioVehiculo =
-                                        usuarioVehiculo(
-                                      idUsuario: usuarioState.id,
-                                      idVehiculo: idDocVehiculo,
-                                    );*/
+                                      await db
+                                          .collection('UsuariosVehiculos')
+                                          .add(
+                                              nuevoUsuarioVehiculo.toFirestore());*/
 
-                                    /*await db
-                                        .collection('Vehiculos')
-                                        .doc(idDocVehiculo)
-                                        .set(nuevoVehiculo.toFireStore());
-
-                                    await db
-                                        .collection('UsuariosVehiculos')
-                                        .add(
-                                            nuevoUsuarioVehiculo.toFirestore());*/
-
-                                    context.goNamed(Calendar_demo.name);
+                                      context.goNamed(Calendar_demo.name);
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Error: $e'),
+                                          duration: const Duration(seconds: 3),
+                                        ),
+                                      );
+                                      print(e);
+                                    }
                                   }
                                 }
                               : null,

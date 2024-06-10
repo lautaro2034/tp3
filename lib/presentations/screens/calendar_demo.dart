@@ -6,7 +6,7 @@ import 'package:app_de_estacionamiento/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Calendar_demo extends ConsumerStatefulWidget {
-  static final String name = 'CalendarDemo';
+  static final String name = 'Calendar_demo';
 
   const Calendar_demo({super.key});
 
