@@ -8,11 +8,7 @@ final usuarioProvider = StateNotifierProvider<UsuarioNotifier, Usuario>((ref) {
 class UsuarioNotifier extends StateNotifier<Usuario> {
   UsuarioNotifier()
       : super(Usuario(
-            id: 'error',
-            email: 'error',
-            contrasenia: 'error',
-            nombre: 'error',
-            apellido: 'error'));
+            id: '', email: '', contrasenia: '', nombre: '', apellido: ''));
 
   void setUsuario(String id, String nombre, String apellido, String email,
       String contrasenia) {
