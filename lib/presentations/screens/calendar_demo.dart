@@ -1,6 +1,7 @@
 import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +146,7 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
           ),
           ElevatedButton(
               onPressed: () {
-                context.goNamed(Login.name);
+                context.goNamed(Home.name);
               },
               child: Text('Volver'))
         ],
