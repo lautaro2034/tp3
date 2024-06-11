@@ -3,7 +3,6 @@ import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
 import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
-import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/calendar_demo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +34,8 @@ class _ConfirmReservationPageState
 
     _patenteFocusNode.addListener(() {
       if (!_patenteFocusNode.hasFocus) {
-        // Cuando pierde el foco, validar el campo de patente
         final errorMessage = _validatePatente(_patenteController.text);
         if (errorMessage != null) {
-          // Mostrar el snackbar con el mensaje de error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(errorMessage),
@@ -113,7 +110,7 @@ class _ConfirmReservationPageState
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: _modeloController,
                           decoration: const InputDecoration(
@@ -121,7 +118,7 @@ class _ConfirmReservationPageState
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        const SizedBox(height: 55),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: _patenteController,
                           focusNode: _patenteFocusNode,
@@ -130,7 +127,7 @@ class _ConfirmReservationPageState
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () async {
@@ -139,23 +136,18 @@ class _ConfirmReservationPageState
                                         db.collection('vehiculos').doc().id;
 
                                     try {
-                                      /*final nuevoUsuarioVehiculo =
-                                          usuarioVehiculo(
-                                        idUsuario: usuarioState.id,
-                                        idVehiculo: idDocVehiculo,
-                                      );*/
+                                      final nuevoVehiculo = Vehiculo(
+                                        marca: _marcaController.text,
+                                        modelo: _modeloController.text,
+                                        patente: _patenteController.text,
+                                        idDuenio: usuarioState.id,
+                                      );
 
-                                      /*await db
-                                          .collection('Vehiculos')
-                                          .doc(idDocVehiculo)
-                                          .set(nuevoVehiculo.toFireStore());
+                                      ref
+                                          .read(vehiculoProvider.notifier)
+                                          .setVehiculo(nuevoVehiculo);
 
-                                      await db
-                                          .collection('UsuariosVehiculos')
-                                          .add(
-                                              nuevoUsuarioVehiculo.toFirestore());*/
-
-                                      context.goNamed(Calendar_demo.name);
+                                      context.goNamed(CalendarDemo.name);
                                     } catch (e) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -164,7 +156,6 @@ class _ConfirmReservationPageState
                                           duration: const Duration(seconds: 3),
                                         ),
                                       );
-                                      print(e);
                                     }
                                   }
                                 }
