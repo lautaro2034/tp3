@@ -17,8 +17,9 @@ class Lote extends StatelessWidget {
     return ElevatedButton(
         onPressed: onSelected,
         style: ButtonStyle(
-            // backgroundColor:  WidgetStateProperty.all( isSelected ? Colors.red : Colors.green)
-            ),
+          backgroundColor:
+              MaterialStateProperty.all(isSelected ? Colors.red : Colors.green),
+        ),
 
         //Nro de lote
         child: Text(
