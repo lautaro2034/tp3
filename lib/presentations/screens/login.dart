@@ -2,6 +2,7 @@ import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
+import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -134,8 +135,13 @@ class Login extends ConsumerWidget {
                                   userData['apellido'],
                                   userData['email'],
                                   userData['contrasenia']);
+
+                              if (userData['esAdmin'] == true) {
+                                context.goNamed(testeo.nombre);
+                              } else {
+                                context.goNamed(Home.name);
+                              }
                               // Usuario autenticado con éxito
-                              context.goNamed(Home.name);
                             } else {
                               print('Contraseña incorrecta.');
                             }

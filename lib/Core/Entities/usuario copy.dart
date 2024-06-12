@@ -6,15 +6,13 @@ class Usuario {
   String contrasenia;
   String nombre;
   String apellido;
-  bool esAdmin;
 
   Usuario(
       {required this.id,
       required this.email,
       required this.contrasenia,
       required this.nombre,
-      required this.apellido,
-      this.esAdmin = false});
+      required this.apellido});
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -23,7 +21,6 @@ class Usuario {
       if (contrasenia != null) "contrasenia": contrasenia,
       if (nombre != null) "nombre": nombre,
       if (apellido != null) "apellido": apellido,
-      'esAdmin': false
     };
   }
 
@@ -33,15 +30,15 @@ class Usuario {
   ) {
     final data = snapshot.data();
     return Usuario(
-        id: data?['id'],
-        email: data?['email'],
-        contrasenia: data?['contrasenia'],
-        nombre: data?['nombre'],
-        apellido: data?['apellido'],
-        esAdmin: data?['esAdmin']);
+      id: data?['id'],
+      email: data?['email'],
+      contrasenia: data?['contrasenia'],
+      nombre: data?['nombre'],
+      apellido: data?['apellido'],
+    );
   }
 
-  //Sirve para editar datos // es basicamente otro constructor
+  //Sirve para editar datos
   Usuario copywith(
       {String? id,
       String? email,
@@ -54,8 +51,11 @@ class Usuario {
         email: email ?? this.email,
         contrasenia: contrasenia ?? this.contrasenia,
         nombre: nombre ?? this.nombre,
-        apellido: apellido ?? this.apellido,
-        esAdmin: esAdmin ?? this.esAdmin);
+        apellido: apellido ?? this.apellido);
+  }
+
+  String get recuperarId {
+    return id;
   }
 
   @override
