@@ -137,14 +137,18 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                       print(_selectedLote);
                       print(fechaSeleccionada);
                       print(reserva.getDatos());
+                      context.goNamed(Home.name);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                             content: Text('Seleccione una fecha y un lote')),
                       );
-                    }
+                 
+                    }  
+                    
                   },
                   child: const Text('Reservar'),
+                 
                 ),
               ],
             ),
