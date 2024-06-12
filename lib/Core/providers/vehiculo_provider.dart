@@ -14,9 +14,7 @@ class vehiculoNotifier extends StateNotifier<Vehiculo> {
             modelo: 'xxx123',
             idDuenio: 'RIWofZj3xzRRHeMRg73YUZCG89m2'));
 
-  void setVehiculo(
-    Vehiculo vehiculo,
-  ) {
+  void setVehiculo(Vehiculo vehiculo) {
     state = state.copywith(
       patente: vehiculo.patente,
       marca: vehiculo.marca,

@@ -3,7 +3,6 @@ import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
 import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
-import 'package:app_de_estacionamiento/presentations/screens/booking_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/calendar_demo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +34,8 @@ class _ConfirmReservationPageState
 
     _patenteFocusNode.addListener(() {
       if (!_patenteFocusNode.hasFocus) {
-        // Cuando pierde el foco, validar el campo de patente
         final errorMessage = _validatePatente(_patenteController.text);
         if (errorMessage != null) {
-          // Mostrar el snackbar con el mensaje de error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(errorMessage),
@@ -107,13 +104,21 @@ class _ConfirmReservationPageState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
+                          controller: _marcaController,
+                          decoration: const InputDecoration(
+                            labelText: 'Marca',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
                           controller: _modeloController,
                           decoration: const InputDecoration(
                             labelText: 'Modelo',
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        const SizedBox(height: 55),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: _patenteController,
                           focusNode: _patenteFocusNode,
@@ -122,15 +127,7 @@ class _ConfirmReservationPageState
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        const SizedBox(height: 50),
-                        TextFormField(
-                          controller: _marcaController,
-                          decoration: const InputDecoration(
-                            labelText: 'Marca',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () async {
@@ -138,36 +135,30 @@ class _ConfirmReservationPageState
                                     String idDocVehiculo =
                                       db.collection('vehiculos').doc().id;
 
-                                    final nuevoVehiculo = Vehiculo(
-                                      patente: _patenteController.text,
-                                      marca: _marcaController.text,
-                                      modelo: _modeloController.text,
-                                      idDuenio: usuarioState.id,
-                                    );
+                                    try {
+                                      final nuevoVehiculo = Vehiculo(
+                                        marca: _marcaController.text,
+                                        modelo: _modeloController.text,
+                                        patente: _patenteController.text,
+                                        idDuenio: usuarioState.id,
+                                      );
 
-                                    ref
-                                        .read(vehiculoProvider.notifier)
-                                        .setVehiculo(nuevoVehiculo);
+                                      ref
+                                          .read(vehiculoProvider.notifier)
+                                          .setVehiculo(nuevoVehiculo);
 
-                                    /*final nuevoUsuarioVehiculo =
-                                        usuarioVehiculo(
-                                      idUsuario: usuarioState.id,
-                                      idVehiculo: idDocVehiculo,
-                                    );*/
-
-                                    /*await db
-                                        .collection('Vehiculos')
-                                        .doc(idDocVehiculo)
-                                        .set(nuevoVehiculo.toFireStore());
-
-                                    await db
-                                        .collection('UsuariosVehiculos')
-                                        .add(
-                                            nuevoUsuarioVehiculo.toFirestore());*/
-
-                                    
+                                      context.goNamed(CalendarDemo.name);
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Error: $e'),
+                                          duration: const Duration(seconds: 3),
+                                        ),
+                                      );
+                                    }
                                   }
-                                  context.goNamed(Calendar_demo.name);
+                                  context.goNamed(CalendarDemo.name);
                                 }
                               : null,
                           child: const Center(

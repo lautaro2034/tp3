@@ -1,29 +1,38 @@
+import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
+import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
+import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
+import 'package:app_de_estacionamiento/presentations/screens/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
 import 'package:app_de_estacionamiento/Core/Entities/Vehiculo.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/lote.dart';
-import 'package:flutter/material.dart';
 import 'package:app_de_estacionamiento/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class Calendar_demo extends ConsumerStatefulWidget {
-  static const String name = 'calendarDemo';
+class CalendarDemo extends ConsumerStatefulWidget {
+  static final String name = 'CalendarDemo';
 
-  const Calendar_demo({super.key});
+  const CalendarDemo({super.key});
 
   @override
-  _Calendar_demoState createState() => _Calendar_demoState();
+  _CalendarDemoState createState() => _CalendarDemoState();
 }
 
-class _Calendar_demoState extends ConsumerState<Calendar_demo> {
-  final algunasReservas = [
+class _CalendarDemoState extends ConsumerState<CalendarDemo> {
+  final List<Reserva> algunasReservas = [
     Reserva(
-        fecha: 7,
-        lote: 1,
-        elvehiculo: Vehiculo(
-            patente: 'fgh123',
-            marca: 'Ferrari',
-            modelo: 'modelo',
-            idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2")),
+      fecha: 3,
+      lote: 1,
+      elvehiculo: Vehiculo(
+        patente: 'fgh123',
+        marca: 'Ferrari',
+        modelo: 'modelo',
+        idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2",
+      ),
+    ),
   ];
 
   List<Reserva> reservasDelDia = [];
@@ -94,15 +103,20 @@ class _Calendar_demoState extends ConsumerState<Calendar_demo> {
                 Reserva reserva = algunasReservas[0];
                 print(reserva.toString());
               } else {
-                print('Seleccione una fecha y un lote');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Seleccione una fecha y un lote')),
+                );
               }
             },
-            child: const Text('Reservar'))
-
-        
-
-        
-      ],
-    );
+            child: const Text('Reservar'),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                context.goNamed(Home.name);
+              },
+              child: Text('Volver'))
+        ],
+      );
+    
   }
 }
