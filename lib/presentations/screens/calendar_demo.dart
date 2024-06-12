@@ -6,7 +6,7 @@ import 'package:app_de_estacionamiento/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Calendar_demo extends ConsumerStatefulWidget {
-  static final String name = 'CalendarDemo';
+  static const String name = 'calendarDemo';
 
   const Calendar_demo({super.key});
 
@@ -27,14 +27,18 @@ class _Calendar_demoState extends ConsumerState<Calendar_demo> {
   ];
 
   List<Reserva> reservasDelDia = [];
-  int? _selectedButtonIndex;
   int? fechaSeleccionada;
+  int? _selectedLote;
 
-  void _onButtonPressed(int index) {
+  
+
+
+  void _onLoteSelected(int index) {
     setState(() {
-      _selectedButtonIndex = index;
+      _selectedLote = index;
     });
   }
+
 
   void _filtrarReservasPorFecha(int dia) {
     setState(() {
@@ -55,7 +59,7 @@ class _Calendar_demoState extends ConsumerState<Calendar_demo> {
           onDateChanged: (DateTime value) {
             setState(() {
               fechaSeleccionada = value.day;
-              _selectedButtonIndex = null;
+              _selectedLote = null;
             });
             _filtrarReservasPorFecha(fechaSeleccionada!);
           },
@@ -67,74 +71,37 @@ class _Calendar_demoState extends ConsumerState<Calendar_demo> {
               spacing: 8.0, // Espacio horizontal entre los elementos
               runSpacing: 8.0, // Espacio vertical entre las filas
               children: List.generate(10, (nroLote) {
-                bool isSelected = false;
-                for (var reserva in reservasDelDia) {
-                  if (reserva.lote == nroLote) {
-                    isSelected = true;
-                    break;
-                  }
-                }
+                bool isSelected = reservasDelDia.any((reserva) => reserva.lote == nroLote) || _selectedLote == nroLote;
+                
 
                 return SizedBox(
+                    
                     height: 80,
                     child: Lote(
-                        loteData: LoteData(id: nroLote, estaReservado: false)
+                        id: nroLote,
+                        isSelected: isSelected,
+                        onSelected: () => _onLoteSelected(nroLote)
 
-                        /* identificador: 'P$nroLote',
-                        isSelected:
-                            _selectedButtonIndex == nroLote || isSelected,
-                        onPressed: () => _onButtonPressed(nroLote))); */
                         ));
               }),
             ),
           ),
         ),
 
-        // Estilo
-        /*Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2, // Hacer botones rectangulares
-            ),
-            itemCount: listaLotes.length,
-            itemBuilder: (context, index) {
-              final elLote = Lote(loteData: listaLotes[index]);
-              final elvehiculo = ref.read(vehiculoProvider);
-
-              final laReserva = Reserva(
-                  fecha: fechaSeleccionada!.day,
-                  lote: elLote.loteData.id,
-                  elvehiculo: elvehiculo);
-
-              return Lote(
-                  loteData: listaLotes[index],
-                  onTap: () {
-                    print(laReserva);
-                    print(fechaSeleccionada.toString());
-                    print(elLote.loteData.id);
-                    _reservarPosicion(index);
-
-                    FirebaseFirestore.instance
-                        .collection('Reservas')
-                        .add(laReserva.toFirestore());
-                  });
-            },
-          ),
-        ),*/
-
         ElevatedButton(
             onPressed: () {
-              if (fechaSeleccionada != null && _selectedButtonIndex != null) {
+              if (fechaSeleccionada != null && _selectedLote != null) {
                 Reserva reserva = algunasReservas[0];
-                print(reserva.getData());
+                print(reserva.toString());
               } else {
                 print('Seleccione una fecha y un lote');
               }
             },
             child: const Text('Reservar'))
+
+        
+
+        
       ],
     );
   }

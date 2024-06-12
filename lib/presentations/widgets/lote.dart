@@ -1,58 +1,30 @@
 import 'package:flutter/material.dart';
 
-class LoteData {
-  int id;
-  bool estaReservado;
-  bool estaConfirmado;
-
-  LoteData(
-      {required this.id,
-      required this.estaReservado,
-      this.estaConfirmado = false});
-}
-
 class Lote extends StatelessWidget {
-  final LoteData loteData;
-  final VoidCallback? onTap;
+  final int id;
+  final bool isSelected;
+  final VoidCallback onSelected;
+  
 
-  const Lote({
-    Key? key,
-    required this.loteData,
-    this.onTap,
-  }) : super(key: key);
+  Lote({
+    super.key,
+    required this.id,
+    required this.isSelected,
+    required this.onSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    Color colorBoton;
-    if (loteData.estaConfirmado) {
-      colorBoton = Colors.red;
-    } else if (loteData.estaReservado) {
-      colorBoton = Colors.yellow;
-    } else {
-      colorBoton = Colors.blue;
-    }
+    return ElevatedButton(
 
-    return GestureDetector(
-      onTap: loteData.estaConfirmado ? null : onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorBoton,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 4,
-              offset: Offset(2, 2),
-            ),
-          ],
+        onPressed: onSelected,
+
+        style: ButtonStyle(
+          backgroundColor:  WidgetStateProperty.all( isSelected ? Colors.red : Colors.green)
         ),
-        child: Center(
-          child: Text(
-            "p${loteData.id}",
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
-    );
+
+        //Nro de lote 
+        child: Text('P$id', style: const TextStyle(color: Colors.white),));
+    
   }
 }

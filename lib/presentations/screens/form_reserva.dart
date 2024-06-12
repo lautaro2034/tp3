@@ -136,7 +136,7 @@ class _ConfirmReservationPageState
                               ? () async {
                                   if (_formKey.currentState!.validate()) {
                                     String idDocVehiculo =
-                                        db.collection('vehiculos').doc().id;
+                                      db.collection('vehiculos').doc().id;
 
                                     final nuevoVehiculo = Vehiculo(
                                       patente: _patenteController.text,
@@ -165,8 +165,9 @@ class _ConfirmReservationPageState
                                         .add(
                                             nuevoUsuarioVehiculo.toFirestore());*/
 
-                                    context.goNamed(Calendar_demo.name);
+                                    
                                   }
+                                  context.goNamed(Calendar_demo.name);
                                 }
                               : null,
                           child: const Center(

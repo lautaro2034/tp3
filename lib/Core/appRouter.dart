@@ -28,7 +28,7 @@ final appRouter = GoRouter(
       name: RegisterScreen.nombre,
     ),
     GoRoute(
-      path: '/calendarioReserva',
+      path: '/calendarDemo',
       builder: (context, state) => const Calendar_demo(),
       name: Calendar_demo.name,
     ),
