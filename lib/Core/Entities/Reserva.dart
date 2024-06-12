@@ -25,6 +25,10 @@ class Reserva {
         elvehiculo.toString();
   }
 
+  String getDatos() {
+    return 'Fecha reservada: ${fecha.toString()}, Patente: ${elvehiculo.patente}, Propietario: ${elvehiculo.idDuenio}, Marca: ${elvehiculo.marca} ';
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
       'fecha': this.fecha,

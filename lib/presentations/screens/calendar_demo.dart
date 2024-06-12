@@ -101,7 +101,7 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
             onPressed: () {
               if (fechaSeleccionada != null && _selectedLote != null) {
                 Reserva reserva = algunasReservas[0];
-                print(reserva.toString());
+                print(reserva.getDatos());
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Seleccione una fecha y un lote')),
