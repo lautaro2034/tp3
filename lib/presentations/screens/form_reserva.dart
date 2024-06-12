@@ -132,9 +132,6 @@ class _ConfirmReservationPageState
                           onPressed: _isButtonEnabled
                               ? () async {
                                   if (_formKey.currentState!.validate()) {
-                                    String idDocVehiculo =
-                                      db.collection('vehiculos').doc().id;
-
                                     try {
                                       final nuevoVehiculo = Vehiculo(
                                         marca: _marcaController.text,
@@ -158,7 +155,6 @@ class _ConfirmReservationPageState
                                       );
                                     }
                                   }
-                                  context.goNamed(CalendarDemo.name);
                                 }
                               : null,
                           child: const Center(
