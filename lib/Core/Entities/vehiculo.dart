@@ -22,7 +22,7 @@ class Vehiculo {
     };
   }
 
-  factory Vehiculo.fromFirestore(
+  /*factory Vehiculo.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
@@ -32,6 +32,14 @@ class Vehiculo {
         marca: data?['marca'],
         patente: data?['patente'],
         idDuenio: data?['patente']);
+  }*/
+
+  factory Vehiculo.fromFirestore(Map<String, dynamic>? data) {
+    return Vehiculo(
+        modelo: data?['modelo'],
+        marca: data?['marca'],
+        patente: data?['patente'],
+        idDuenio: data?['idDuenio']);
   }
 
   Vehiculo copywith(

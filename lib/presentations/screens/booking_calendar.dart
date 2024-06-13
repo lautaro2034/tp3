@@ -26,42 +26,17 @@ class _BookingCalendarDemoAppState
 
   final lasReservas = [];
 
-  /*.then(snapshot) {
-      for (var doc in snapshot.doc){
-        /// data
-      }
-    };
-*/
-
-  final elNuevoVehiculo = Vehiculo(
-      patente: 'fgh123',
-      marca: 'Ferrari',
-      modelo: 'modelo',
-      idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2");
-
   DateTime? fechaSeleccionada;
   List<LoteData> listaLotes =
       List<LoteData>.generate(11, (index) => LoteData(index, false));
   //Future<QuerySnapshot<Map<String, dynamic>>> reservasDelDia = null!;
   int? _indiceBotonSeleccionado;
 
-  final algunasReservas = [
-    Reserva(
-        fecha: DateTime.now().day,
-        lote: 1,
-        elvehiculo: Vehiculo(
-            patente: 'fgh123',
-            marca: 'Ferrari',
-            modelo: 'modelo',
-            idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2")),
-    //Reserva(fecha: 15, lote: 2),
-    //Reserva(fecha: 6, lote: 3),
-    //Reserva(fecha: 10, lote: 4),
-  ];
 
   void _onDaySelected(DateTime diaSeleccionado, DateTime diaEnfocado) {
     setState(() {
       fechaSeleccionada = diaSeleccionado;
+      
       // Reiniciar las reservas para la nueva fecha
       listaLotes = List.generate(11, (index) {
         

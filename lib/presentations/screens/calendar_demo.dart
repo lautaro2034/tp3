@@ -14,7 +14,6 @@ import 'package:go_router/go_router.dart';
 
 class CalendarDemo extends ConsumerStatefulWidget {
   static final String name = 'CalendarDemo';
-
   const CalendarDemo({super.key});
 
   @override
@@ -22,33 +21,29 @@ class CalendarDemo extends ConsumerStatefulWidget {
 }
 
 class _CalendarDemoState extends ConsumerState<CalendarDemo> {
-  final List<Reserva> algunasReservas = [
-    Reserva(
-      fecha: 3,
-      lote: 1,
-      elvehiculo: Vehiculo(
-        patente: 'fgh123',
-        marca: 'Ferrari',
-        modelo: 'modelo',
-        idDuenio: "RIWofZj3xzRRHeMRg73YUZCG89m2",
-      ),
-    ),
-  ];
-
-  List<Reserva> reservasDelDia = [];
   int? fechaSeleccionada;
   int? _selectedLote;
+  List<Reserva> reservasDelDia = [];
 
-  void _onLoteSelected(int index) {
-    setState(() {
-      _selectedLote = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    fechaSeleccionada = DateTime.now().day;
+    _fetchReservas();
   }
 
-  void _filtrarReservasPorFecha(int dia) {
+  Future<void> _fetchReservas() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await firestore.collection('Reservas').get();
+
+    //el metodo map itera en los resultados del query, devolviendo por cada vuelta una Reserva
+    List<Reserva> reservas = snapshot.docs.map((doc) {
+      return Reserva.fromFirestore(doc);
+    }).toList();
+
     setState(() {
-      reservasDelDia =
-          algunasReservas.where((reserva) => reserva.fecha == dia).toList();
+      reservasDelDia = reservas;
     });
   }
 
@@ -71,9 +66,8 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
               onDateChanged: (DateTime value) {
                 setState(() {
                   fechaSeleccionada = value.day;
-                  _selectedLote = null;
                 });
-                _filtrarReservasPorFecha(fechaSeleccionada!);
+                // _filtrarReservasPorFecha(fechaSeleccionada!);
               },
             ),
             Expanded(
@@ -87,11 +81,20 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                         _selectedLote == nroLote;
 
                     return SizedBox(
-                        height: 80,
-                        child: Lote(
-                            id: nroLote,
-                            isSelected: isSelected,
-                            onSelected: () => _onLoteSelected(nroLote)));
+                      height: 80,
+                      child: Lote(
+                          id: nroLote,
+                          isSelected: isSelected,
+                          onSelected: () {
+                            // _onLoteSelected(nroLote);
+                            setState(() {
+                              // el state porque le cambia el color
+                              _selectedLote = nroLote;
+                            });
+                            print(_selectedLote);
+                            print(reservasDelDia);
+                          }),
+                    );
                   }),
                 ),
               ),
@@ -103,8 +106,9 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                     onPressed: () {
                       context.goNamed(Home.name);
                     },
-                    child: Text('Volver')),
-                Padding(padding: EdgeInsets.fromLTRB(100.0, 0.0, 0.0, 188.0)),
+                    child: const Text('Volver')),
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(100.0, 0.0, 0.0, 188.0)),
                 ElevatedButton(
                   onPressed: () async {
                     if (fechaSeleccionada != null && _selectedLote != null) {
@@ -132,23 +136,18 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                           .doc()
                           .set(reserva.toFirestore());
 
-                      //Reserva reserva = algunasReservas[0];
-
                       print(_selectedLote);
                       print(fechaSeleccionada);
                       print(reserva.getDatos());
                       context.goNamed(Home.name);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                             content: Text('Seleccione una fecha y un lote')),
                       );
-                 
-                    }  
-                    
+                    }
                   },
                   child: const Text('Reservar'),
-                 
                 ),
               ],
             ),
@@ -156,3 +155,16 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
         ));
   }
 }
+
+
+  /*void _onLoteSelected(int index) {
+    setState(() {
+      _selectedLote = index;
+    });
+  }*/
+
+  /*void _filtrarReservasPorFecha(int dia) {
+    setState(() {
+      /*reservasDelDia = algunasReservas.where((reserva) => reserva.fecha == dia).toList();*/
+    });
+  }*/
