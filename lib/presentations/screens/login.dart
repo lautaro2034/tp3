@@ -1,5 +1,6 @@
 import 'package:app_de_estacionamiento/Core/Entities/usuario.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
+import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
 import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
@@ -137,7 +138,7 @@ class Login extends ConsumerWidget {
                                   userData['contrasenia']);
 
                               if (userData['esAdmin'] == true) {
-                                context.goNamed(testeo.nombre);
+                                context.goNamed(AdminReservationCalendar.name);
                               } else {
                                 context.goNamed(Home.name);
                               }

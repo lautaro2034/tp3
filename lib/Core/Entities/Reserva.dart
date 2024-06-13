@@ -44,9 +44,11 @@ class Reserva {
 
   factory Reserva.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data()!;
     return Reserva(
-        fecha: snapshot.data()?['fecha'],
-        lote: snapshot.data()?['lote'],
-        elvehiculo: snapshot.data()?['vehiculo']);
+      fecha: data['fecha'],
+      lote: data['lote'],
+      elvehiculo: Vehiculo.fromFirestore(data['elvehiculo']),
+    );
   }
 }
