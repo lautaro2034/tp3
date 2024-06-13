@@ -65,38 +65,51 @@ class _RetirarAutoState extends State<RetirarAuto> {
   Future<void> retirarAuto(String patenteBuscado) async {
     final db = FirebaseFirestore.instance;
 
-    // Busca el vehículo por patente
-    QuerySnapshot querySnap = await db
-        .collection('Vehiculos')
-        .where('patente', isEqualTo: patenteBuscado)
+    // busca si existe una reserva con la patente ingresada
+    QuerySnapshot queryReserva = await db
+        .collection('Reservas')
+        .where('elvehiculo.patente', isEqualTo: patenteBuscado)
         .limit(1)
         .get();
 
-    if (querySnap.docs.isEmpty) {
-      // Muestra un mensaje indicando que no se encontró el vehículo
+    // si no existe la reserva lo alerta
+    if (queryReserva.docs.isEmpty) {
       showBox('No se encontró ningún auto con esa patente');
     } else {
-      DocumentSnapshot vehiculoDoc = querySnap.docs.first;
-      //String puesto = vehiculoDoc['lote']; // busca el puesto en la base de datos
-      String patente =
-          vehiculoDoc['patente']; // busca el puesto en la base de datos
+      // Si existe le reserva se busca al vehiculo y los datos del usuario.
+      // Para asi tambien eliminarlos de la DB.
+
+      // Busca el vehículo por patente
+      QuerySnapshot queryAuto = await db
+          .collection('Vehiculos')
+          .where('patente', isEqualTo: patenteBuscado)
+          .limit(1)
+          .get();
+
+      DocumentSnapshot docReserva = queryReserva.docs.first;
+      DocumentSnapshot vehiculoDoc = queryAuto.docs.first;
 
       // Busca la relación del usuario con el vehículo
       QuerySnapshot querySnap2 = await db
           .collection('UsuariosVehiculos')
-          .where('idVehiculo', isEqualTo: vehiculoDoc.id)
+          .where('idVehiculo', isEqualTo: vehiculoDoc['patente'])
           .limit(1)
           .get();
 
       DocumentSnapshot userVehiculoDoc2 = querySnap2.docs.first;
 
+      String patente = docReserva['elvehiculo']['patente'];
+      int puesto = docReserva['lote'];
+
       // Elimina documentos de la base de datos
+      await docReserva.reference.delete();
       await vehiculoDoc.reference.delete();
       await userVehiculoDoc2.reference.delete();
 
       // Muestra un mensaje indicando que el puesto fue liberado
       //showBox('Se va a liberar el puesto $puesto');
-      showBox('Se ha retirado el vehiculo con patente $patente');
+      showBox(
+          'Se ha retirado el vehiculo con patente $patente del puesto: $puesto');
     }
   }
 
