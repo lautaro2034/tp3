@@ -34,7 +34,11 @@ class Vehiculo {
         idDuenio: data?['patente']);
   }*/
 
-  factory Vehiculo.fromFirestore(Map<String, dynamic>? data) {
+  factory Vehiculo.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Vehiculo(
         modelo: data?['modelo'],
         marca: data?['marca'],
