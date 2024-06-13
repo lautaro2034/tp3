@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AdminReservationCalendar extends StatefulWidget {
+  static const name = 'AdminReservationCalendar';
   const AdminReservationCalendar({super.key});
 
   @override
