@@ -41,8 +41,8 @@ class _HomeState extends State<Home> {
     // Screen de retiro de auto
 
     // Screen de busqueda de auto
-    const BuscadorAuto(),
     const RetirarAuto(),
+    const BuscadorAuto(),
   ];
 //admin@admin.com
 //admin2024

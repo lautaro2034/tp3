@@ -35,7 +35,7 @@ class pantallaPrincipal extends StatelessWidget {
                 if (snapshot.hasData && snapshot.data!.exists) {
                   Map<String, dynamic> data =
                       snapshot.data!.data() as Map<String, dynamic>;
-                  int totalLugares = data['totalLugares'] ?? 0;
+                  int totalLugares = data['cantTotalLugares'] ?? 0;
 
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
