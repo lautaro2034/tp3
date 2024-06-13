@@ -70,19 +70,19 @@ class _BuscadorAutoState extends State<BuscadorAuto> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Buscando auto...'),
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
       ),
     );
 
     // Busca el vehículo por patente
     QuerySnapshot querySnap = await db
         .collection('Reservas')
-        .where('vehiculo.patente', isEqualTo: patenteBuscado)
+        .where('elvehiculo.patente', isEqualTo: patenteBuscado)
         .get();
 
     if (querySnap.docs.isNotEmpty) {
-      DocumentSnapshot vehiculoDoc = querySnap.docs.first;
-      String puesto = vehiculoDoc['puesto'];
+      DocumentSnapshot reserDoc = querySnap.docs.first;
+      int puesto = reserDoc['lote'];
 
       // Muestra un mensaje indicando el puesto del auto
       showBox('Su auto está en el puesto $puesto');

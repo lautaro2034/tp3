@@ -4,7 +4,6 @@ class Lote extends StatelessWidget {
   final int id;
   final bool isSelected;
   final VoidCallback onSelected;
-  
 
   Lote({
     super.key,
@@ -16,15 +15,16 @@ class Lote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-
         onPressed: onSelected,
-
         style: ButtonStyle(
-          backgroundColor:  WidgetStateProperty.all( isSelected ? Colors.red : Colors.green)
+          backgroundColor:
+              MaterialStateProperty.all(isSelected ? Colors.red : Colors.green),
         ),
 
-        //Nro de lote 
-        child: Text('P$id', style: const TextStyle(color: Colors.white),));
-    
+        //Nro de lote
+        child: Text(
+          'P$id',
+          style: const TextStyle(color: Colors.white),
+        ));
   }
 }
