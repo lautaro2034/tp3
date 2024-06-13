@@ -1,3 +1,4 @@
+import 'package:app_de_estacionamiento/Core/Entities/CapacidadTotal.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/dialog_box_retiro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,18 @@ class _RetirarAutoState extends State<RetirarAuto> {
           .where('idVehiculo', isEqualTo: vehiculoDoc['patente'])
           .limit(1)
           .get();
+
+      DocumentSnapshot cantLugares =
+          await db.collection('Lugares').doc('68PCmlqAUB3JJdDFBodl').get();
+
+      int cantActualLugares = cantLugares['cantTotalLugares'];
+      cantActualLugares++;
+      final Capacidad = CapacidadTotal(cantTotalLugares: cantActualLugares);
+
+      await db
+          .collection('Lugares')
+          .doc('68PCmlqAUB3JJdDFBodl')
+          .set(Capacidad.toFirestore());
 
       DocumentSnapshot userVehiculoDoc2 = querySnap2.docs.first;
 

@@ -1,3 +1,4 @@
+import 'package:app_de_estacionamiento/Core/Entities/CapacidadTotal.dart';
 import 'package:app_de_estacionamiento/Core/Entities/usuarioVehiculo.dart';
 import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/Core/providers/vehiculo_provider.dart';
@@ -121,6 +122,16 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                           lote: _selectedLote!,
                           elvehiculo: vehiculoState);
 
+                      DocumentSnapshot cantLugares = await db
+                          .collection('Lugares')
+                          .doc('68PCmlqAUB3JJdDFBodl')
+                          .get();
+
+                      int cantActualLugares = cantLugares['cantTotalLugares'];
+                      cantActualLugares--;
+                      final Capacidad =
+                          CapacidadTotal(cantTotalLugares: cantActualLugares);
+
                       await db
                           .collection('Vehiculos')
                           .doc()
@@ -136,9 +147,11 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                           .doc()
                           .set(reserva.toFirestore());
 
-                      print(_selectedLote);
-                      print(fechaSeleccionada);
-                      print(reserva.getDatos());
+                      await db
+                          .collection('Lugares')
+                          .doc('68PCmlqAUB3JJdDFBodl')
+                          .set(Capacidad.toFirestore());
+
                       context.goNamed(Home.name);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -155,16 +168,3 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
         ));
   }
 }
-
-
-  /*void _onLoteSelected(int index) {
-    setState(() {
-      _selectedLote = index;
-    });
-  }*/
-
-  /*void _filtrarReservasPorFecha(int dia) {
-    setState(() {
-      /*reservasDelDia = algunasReservas.where((reserva) => reserva.fecha == dia).toList();*/
-    });
-  }*/

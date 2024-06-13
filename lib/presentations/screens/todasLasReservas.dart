@@ -2,14 +2,14 @@ import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class testeo extends StatelessWidget {
+class todasLasReservas extends StatelessWidget {
   static final String nombre = 'reservasEfectuadas';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lugares que recorrimos'),
+        title: const Text('Reservas en sistema'),
       ),
       body: const _listView(),
     );

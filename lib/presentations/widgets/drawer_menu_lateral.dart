@@ -1,3 +1,4 @@
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/mis_reservas.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
@@ -29,22 +30,25 @@ class DrawerMenuLateral extends StatelessWidget {
               ),
 
               // Icono de Home
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 25.0),
                 child: ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.home,
                     color: Colors.white,
                   ),
-                  title: Text(
+                  title: const Text(
                     'Home',
                     style: TextStyle(color: Colors.white),
                   ),
+                  onTap: () {
+                    context.goNamed(Home.name);
+                  },
                 ),
               ),
 
               // Icono de Buscar Auto
-              const Padding(
+              /*const Padding(
                 padding: EdgeInsets.only(left: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -59,7 +63,7 @@ class DrawerMenuLateral extends StatelessWidget {
                     context.goNamed(BuscadorAuto.name);
                   },*/
                 ),
-              ),
+              ),*/
 
               // Icono de Acerca de...
               const Padding(
@@ -76,7 +80,7 @@ class DrawerMenuLateral extends StatelessWidget {
                 ),
               ),
               // Icono de lista de...
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(left: 14.0),
                 child: ListTile(
                   leading: IconButton(
@@ -91,7 +95,7 @@ class DrawerMenuLateral extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
 
