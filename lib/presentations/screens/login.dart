@@ -3,7 +3,7 @@ import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/admin_reservation_calendar.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
-import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
+import 'package:app_de_estacionamiento/presentations/screens/todasLasReservas.dart';
 import 'package:app_de_estacionamiento/presentations/widgets/input_text_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +138,7 @@ class Login extends ConsumerWidget {
                                   userData['contrasenia']);
 
                               if (userData['esAdmin'] == true) {
-                                context.goNamed(AdminReservationCalendar.name);
+                                context.goNamed(todasLasReservas.nombre);
                               } else {
                                 context.goNamed(Home.name);
                               }
