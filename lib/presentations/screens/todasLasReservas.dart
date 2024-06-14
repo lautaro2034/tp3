@@ -1,6 +1,8 @@
 import 'package:app_de_estacionamiento/Core/Entities/Reserva.dart';
+import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class todasLasReservas extends StatelessWidget {
   static final String nombre = 'reservasEfectuadas';
@@ -9,9 +11,18 @@ class todasLasReservas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reservas en sistema'),
+        title: Center(
+          child: const Text('Reservas en sistema'),
+        ),
+        leading: ButtonBar(),
       ),
       body: const _listView(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.goNamed(Home.name);
+        },
+        child: const Icon(Icons.arrow_circle_right_outlined),
+      ),
     );
   }
 }
@@ -53,11 +64,11 @@ class _listViewState extends State<_listView> {
       itemCount: listaReservas.length,
       itemBuilder: (context, index) {
         Reserva reserva = listaReservas[index];
-
         return Card(
           child: ListTile(
             title: Text('lote: ${reserva.lote}'),
-            subtitle: Text('Patente ${reserva.elvehiculo.patente}'),
+            subtitle: Text(
+                'Patente: ${reserva.elvehiculo.patente}, Modelo: ${reserva.elvehiculo.modelo}, Marca: ${reserva.elvehiculo.marca}'),
             // le pasa como parametro la vista que se busca.
           ),
         );

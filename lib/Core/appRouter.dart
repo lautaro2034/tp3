@@ -5,6 +5,7 @@ import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/pantalla_principal.dart';
 import 'package:app_de_estacionamiento/presentations/screens/registracion.dart';
+import 'package:app_de_estacionamiento/presentations/screens/reservasUsuario.dart';
 import 'package:app_de_estacionamiento/presentations/screens/todasLasReservas.dart';
 
 //import 'package:app_de_estacionamiento/presentations/screens/testeo.dart';
@@ -41,9 +42,9 @@ final appRouter = GoRouter(
       name: pantallaPrincipal.name,
     ),
     GoRoute(
-      path: '/misReservas',
-      builder: (context, state) => const MisReservas(),
-      name: MisReservas.name,
+      path: '/reservasUsuario',
+      builder: (context, state) => const ReservasUsuario(),
+      name: ReservasUsuario.nombre,
     ),
     GoRoute(
       path: '/todasLasReservas',

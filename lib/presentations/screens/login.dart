@@ -135,7 +135,8 @@ class Login extends ConsumerWidget {
                                   userData['nombre'],
                                   userData['apellido'],
                                   userData['email'],
-                                  userData['contrasenia']);
+                                  userData['contrasenia'],
+                                  userData['esAdmin']);
 
                               if (userData['esAdmin'] == true) {
                                 context.goNamed(todasLasReservas.nombre);

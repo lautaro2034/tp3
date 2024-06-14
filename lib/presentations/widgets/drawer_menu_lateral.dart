@@ -1,15 +1,20 @@
+import 'package:app_de_estacionamiento/Core/providers/user_provider.dart';
 import 'package:app_de_estacionamiento/presentations/screens/home.dart';
 import 'package:app_de_estacionamiento/presentations/screens/login.dart';
 import 'package:app_de_estacionamiento/presentations/screens/mis_reservas.dart';
+import 'package:app_de_estacionamiento/presentations/screens/reservasUsuario.dart';
 import 'package:app_de_estacionamiento/presentations/screens/screen_buscar_auto.dart';
+import 'package:app_de_estacionamiento/presentations/screens/todasLasReservas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class DrawerMenuLateral extends StatelessWidget {
+class DrawerMenuLateral extends ConsumerWidget {
   const DrawerMenuLateral({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usuarioState = ref.watch(usuarioProvider);
     return Drawer(
       backgroundColor: Colors.grey[900],
       child: Column(
@@ -80,22 +85,26 @@ class DrawerMenuLateral extends StatelessWidget {
                 ),
               ),
               // Icono de lista de...
-              /*Padding(
-                padding: const EdgeInsets.only(left: 14.0),
+              Padding(
+                padding: EdgeInsets.only(left: 14.0),
                 child: ListTile(
-                  leading: IconButton(
-                    onPressed: () {
-                      context.goNamed(MisReservas.name);
-                    },
-                    color: Colors.white,
-                    icon: const Icon(Icons.list_alt_rounded),
-                  ),
+                  leading:
+                      const Icon(color: Colors.white, Icons.list_alt_rounded),
                   title: const Text(
                     'Mis reservas',
                     style: TextStyle(color: Colors.white),
                   ),
+                  onTap: () {
+                    print(usuarioState.esAdmin);
+
+                    if (usuarioState.esAdmin == true) {
+                      context.goNamed(todasLasReservas.nombre);
+                    } else {
+                      context.goNamed(ReservasUsuario.nombre);
+                    }
+                  },
                 ),
-              ),*/
+              ),
             ],
           ),
 

@@ -6,7 +6,7 @@ class Usuario {
   String contrasenia;
   String nombre;
   String apellido;
-  bool esAdmin;
+  bool? esAdmin;
 
   Usuario(
       {required this.id,
@@ -14,7 +14,7 @@ class Usuario {
       required this.contrasenia,
       required this.nombre,
       required this.apellido,
-      this.esAdmin = false});
+      this.esAdmin});
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -55,7 +55,7 @@ class Usuario {
         contrasenia: contrasenia ?? this.contrasenia,
         nombre: nombre ?? this.nombre,
         apellido: apellido ?? this.apellido,
-        esAdmin: esAdmin ?? this.esAdmin);
+        esAdmin: esAdmin ?? false);
   }
 
   @override
