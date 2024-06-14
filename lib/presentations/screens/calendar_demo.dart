@@ -82,7 +82,7 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                         _selectedLote == nroLote;
 
                     return SizedBox(
-                      height: 80,
+                      height: 50,
                       child: Lote(
                           id: nroLote,
                           isSelected: isSelected,
@@ -109,7 +109,7 @@ class _CalendarDemoState extends ConsumerState<CalendarDemo> {
                     },
                     child: const Text('Volver')),
                 const Padding(
-                    padding: EdgeInsets.fromLTRB(100.0, 0.0, 0.0, 188.0)),
+                    padding: EdgeInsets.fromLTRB(60.0, 0.0, 0.0, 60.0)),
                 ElevatedButton(
                   onPressed: () async {
                     if (fechaSeleccionada != null && _selectedLote != null) {
